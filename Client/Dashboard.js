@@ -1,7 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Modal } from "react-native";
-import { FlatList, TextInput } from "react-native-gesture-handler";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    Modal,
+    FlatList,
+    TextInput,
+} from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 import Login from "./Login";
 import { database } from "../firebase";
