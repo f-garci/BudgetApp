@@ -5,13 +5,11 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Alert,
     TextInput,
-    Button,
 } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 
-const NewProfile = (props) => {
+const SignUp = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmedPassword, setConfirmedPassword] = useState("");
@@ -34,6 +32,7 @@ const NewProfile = (props) => {
             setError("");
             setLoading(true);
             await signup(email, password);
+            props.navigation.navigate("Login");
         } catch (error) {
             console.log(error);
             setError("Failed to create an account");
@@ -57,24 +56,6 @@ const NewProfile = (props) => {
                 style={styles.saveButton}
                 disabled={loading}
                 onPress={handleSubmit}
-                // () => {
-                //     if (email === "" || password === "") {
-                //         Alert.alert(
-                //             "Missing information",
-                //             "Email/password cannot be left blank."
-                //         );
-                //     } else if (password.length < 6) {
-                //         Alert.alert(
-                //             "Password Error",
-                //             "Password cannot be less than 6 characters."
-                //         );
-                //     } else {
-                //         handleSubmit(event);
-                //         // const error = addUser(userName, password, budget);
-                //         // if (!error) props.navigation.navigate("Dashboard");
-                //         // else Alert.alert("Email", "Not a valid email");
-                //     }
-                // }
             >
                 <Text style={{ color: "white" }}>Save</Text>
             </TouchableOpacity>
@@ -99,4 +80,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default NewProfile;
+export default SignUp;

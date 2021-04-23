@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Image,
     StyleSheet,
@@ -76,7 +76,7 @@ const Login = (props) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.createProfileLink}
-                    onPress={() => props.navigation.navigate("New Profile")}
+                    onPress={() => props.navigation.navigate("Sign Up")}
                 >
                     <Text style={styles.buttonText}>Create Profile</Text>
                 </TouchableOpacity>
@@ -85,6 +85,11 @@ const Login = (props) => {
                 onPress={() => props.navigation.navigate("Dashboard")}
             >
                 <Text>Go to Dashboard Testing</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => props.navigation.navigate("Profile")}
+            >
+                <Text>Go to Profile Testing</Text>
             </TouchableOpacity>
             <StatusBar style="auto" />
         </View>
