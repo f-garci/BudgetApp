@@ -15,9 +15,12 @@ const SignUp = (props) => {
     const [confirmedPassword, setConfirmedPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const { signup } = useAuth();
+    const { signup } = useAuth(); // imports sign up function for firebase
 
-    async function handleSubmit(e) {
+    // Will sign up the user. An error will arise if it fails to sign up the user.
+    // If sign up is successful the user will be redirected to the sign in page again
+    // where they will be able to sign in with their credentials submitted here.
+    async function handleSignUp(e) {
         e.preventDefault();
 
         if (email === "") {
@@ -55,7 +58,7 @@ const SignUp = (props) => {
                 name={"Submit"}
                 style={styles.saveButton}
                 disabled={loading}
-                onPress={handleSubmit}
+                onPress={handleSignUp}
             >
                 <Text style={{ color: "white" }}>Save</Text>
             </TouchableOpacity>

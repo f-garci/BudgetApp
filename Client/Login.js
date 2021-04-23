@@ -19,7 +19,9 @@ const Login = (props) => {
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
 
-    async function handleSubmit(e) {
+    // Will handle login. A message will display if the login was unsuccessful.
+    // If login is successful, it will redirect to the dashboard of authenticated user
+    async function handleLogin(e) {
         e.preventDefault();
 
         if (email === "") {
@@ -70,7 +72,7 @@ const Login = (props) => {
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity
                     style={styles.loginButton}
-                    onPress={handleSubmit}
+                    onPress={handleLogin}
                 >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>

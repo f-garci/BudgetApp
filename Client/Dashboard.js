@@ -24,6 +24,7 @@ const Dashboard = (props) => {
         }
     }
 
+    // Will submit a profile for the user to the profiles table if the user has no profile yet
     const submitProfile = (e) => {
         e.preventDefault();
 
@@ -34,6 +35,7 @@ const Dashboard = (props) => {
         });
     };
 
+    // Will submit the transaction the user enters to the transactions table
     const submitTransaction = (e) => {
         e.preventDefault();
 
@@ -43,14 +45,21 @@ const Dashboard = (props) => {
             createdAt: database.getCurrentTimestamp(),
             userId: currentUser.uid,
         });
-        setModalVisible(!modalVisible);
+        setModalVisible(!modalVisible); // exits the submission view after submitting
     };
 
+    // Tester function to check if the transactions table is being read properly
     const renderTransAmount = ({ item }) => (
         <View>
             <View style={{ width: 300, height: 150 }}>
                 <Text>{item.transAm} </Text>
                 <Text>Remaining Budget: {item.budget}</Text>
+
+                {/* in order to display the date it needs to be converted to a new Date object. 
+                    It is then converted to a string so it can be printed out in the Text tag. 
+                    `.toString()` prints the date in the following format: {`day name` month day year hours:minutes:seconds GMT-time timezone} 
+                    (e.g. Fri Apr 23 2021 12:26:11 GMT-0700 (PDT))
+                    `.toLocaleDateString()` prints the date in the following format: {mm/dd/yyyy} (e.g.04/23/2021) */}
                 <Text>
                     {" "}
                     Day of transaction:
@@ -62,6 +71,7 @@ const Dashboard = (props) => {
         </View>
     );
 
+    // Will get the transactions that are loaded into the table on real time
     const getTransactions = () => {
         const [transactions, setTransactions] = useState([]);
 
@@ -85,6 +95,7 @@ const Dashboard = (props) => {
         return transactions;
     };
 
+    // Will render the transactions obtained in a flatlist. For testing purposes.
     const renderTransactions = () => {
         const data = getTransactions();
 
@@ -111,6 +122,10 @@ const Dashboard = (props) => {
             >
                 {renderTransactions()}
             </View>
+
+            {/* Will create a pop up when the user hits the add a Transaction button. 
+                Will close after submitting the transaction or after user hits cancel button.
+                TODO: Add cancel button*/}
             <Modal
                 animationType="slide"
                 transparent={true}
