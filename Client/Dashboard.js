@@ -108,11 +108,15 @@ const Dashboard = (props) => {
 
         return (
             <View>
-                <FlatList
-                    data={data}
-                    renderItem={renderTransAmount}
-                    keyExtractor={(item) => item.id}
-                />
+                <TouchableOpacity
+                    onPress={() => props.navigation.navigate("History")}
+                >
+                    <FlatList
+                        data={data}
+                        renderItem={renderTransAmount}
+                        keyExtractor={(item) => item.id}
+                    />
+                </TouchableOpacity>
             </View>
         );
     };
