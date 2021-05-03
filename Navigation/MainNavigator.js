@@ -4,6 +4,7 @@ import Login from "../Client/Login";
 import SignUp from "../Client/SignUp";
 import Dashboard from "../Client/Dashboard";
 import Profile from "../Client/Profile";
+import Transactions from "../Client/Transactions";
 // import Constants from "expo-constants";
 
 const Stack = createStackNavigator();
@@ -57,6 +58,7 @@ const HomeScreenStack = () => {
                     headerLeft: null,
                 }}
             />
+            <Stack.Screen name="History" component={Transactions} />
         </Stack.Navigator>
     );
 };
