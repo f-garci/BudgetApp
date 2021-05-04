@@ -8,13 +8,14 @@ import {
     TouchableOpacity,
     View,
     Alert,
+    FlatList,
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 
 // import { Dropdown } from "react-native-material-dropdown";
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
+import Dropdown from "./Dropdown";
 
 const Transactions = (props) => {
     const [transactionMonth, setTransactionMonth] = useState("All");
@@ -84,6 +85,7 @@ const Transactions = (props) => {
         const data = getTransactions();
 
         const transactionMonths = [];
+        console.log();
 
         data.forEach((transaction) => {
             const month = new Date(transaction.createdAt.toDate()).getMonth();
@@ -106,8 +108,11 @@ const Transactions = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text>Your Transaction History:</Text>
-            {renderTransactions()}
+            <View style={{ flex: 1 }}>
+                <Text>Your Transaction History:</Text>
+                <Dropdown items={months} />
+                {renderTransactions()}
+            </View>
         </View>
     );
 };
