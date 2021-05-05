@@ -4,6 +4,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { HomeScreenStack } from "./Navigation/MainNavigator";
 import { AuthProvider } from "./contexts/AuthContext";
+import { createStore } from "redux";
+
+// const store = createStore()
 
 export default function App() {
     return (
