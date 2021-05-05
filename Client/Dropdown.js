@@ -27,7 +27,13 @@ const Dropdown = ({ title, items = [] }) => {
     // );
 
     return (
-        <View style={{ backgroundColor: "pink", width: 150, height: 100 }}>
+        <View
+            style={{
+                backgroundColor: "pink",
+                width: 150,
+                height: open ? 100 : 30,
+            }}
+        >
             <TouchableWithoutFeedback onPress={() => toggle()}>
                 <View>
                     <View
@@ -51,7 +57,7 @@ const Dropdown = ({ title, items = [] }) => {
                         <View style={{ flex: 1 }}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    selection(item);
+                                    setSelection(item);
                                     handleOnClick(item);
                                 }}
                             >
