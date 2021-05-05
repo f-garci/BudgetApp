@@ -46,7 +46,7 @@ const HomeScreenStack = () => {
                     headerLeft: null,
                 }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="Profile"
                 component={Profile}
                 options={{
@@ -57,7 +57,7 @@ const HomeScreenStack = () => {
                     headerTitleStyle: { color: "white" },
                     headerLeft: null,
                 }}
-            />
+            /> */}
             <Stack.Screen name="History" component={Transactions} />
         </Stack.Navigator>
     );

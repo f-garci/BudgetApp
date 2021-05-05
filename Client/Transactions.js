@@ -11,8 +11,6 @@ import {
     FlatList,
 } from "react-native";
 
-// import { Dropdown } from "react-native-material-dropdown";
-
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
 import Dropdown from "./Dropdown";
