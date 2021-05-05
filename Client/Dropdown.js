@@ -59,6 +59,7 @@ const Dropdown = ({ title, items = [] }) => {
                                 onPress={() => {
                                     setSelection(item);
                                     handleOnClick(item);
+                                    setOpen(!open);
                                 }}
                             >
                                 <View
