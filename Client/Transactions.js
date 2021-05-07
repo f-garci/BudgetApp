@@ -15,8 +15,10 @@ import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
 import Dropdown from "./Dropdown";
 
+import { useSelector } from "react-redux";
+
 const Transactions = (props) => {
-    const [transactionMonth, setTransactionMonth] = useState("All");
+    // const [transactionMonth, setTransactionMonth] = useState("All");
     const { currentUser } = useAuth();
     const months = [
         "January",
@@ -32,12 +34,17 @@ const Transactions = (props) => {
         "November",
         "December",
     ];
+    const selectedMonth = useSelector((state) => {
+        console.log(state.month.month);
+        console.clear();
+        return state.month.month;
+    });
 
     const renderFiltered = ({ item }) => {
         const month = months[new Date(item.createdAt.toDate()).getMonth()];
 
         // hard coded value for testing purposes. REMOVE LATER!!
-        if (month === "April") {
+        if (month === selectedMonth) {
             return (
                 <View>
                     <View style={{ width: "100%", height: 150 }}>
