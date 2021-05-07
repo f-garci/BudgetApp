@@ -7,7 +7,12 @@ import {
     TouchableOpacity,
 } from "react-native";
 
-const Dropdown = ({ title, items = [] }) => {
+import { selected } from "../store/actions/actionTypes";
+import { useDispatch } from "react-redux";
+
+const Dropdown = ({ items = [] }) => {
+    const dispatch = useDispatch();
+
     const [open, setOpen] = useState(false);
     const [selection, setSelection] = useState([]);
     const toggle = () => setOpen(!open);
@@ -16,15 +21,10 @@ const Dropdown = ({ title, items = [] }) => {
         if (item === selection[0]) {
             setSelection(["Select Month..."]);
         } else {
+            dispatch({ type: selected, month: item });
             setSelection([item]);
         }
     };
-
-    // const renderMonthSelection = ({item}) => (
-    //     <View>
-
-    //     </View>
-    // );
 
     return (
         <View
