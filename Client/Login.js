@@ -36,7 +36,7 @@ const Login = (props) => {
             setError("");
             setLoading(true);
             await login(email, password);
-            props.navigation.navigate("Dashboard");
+            props.navigation.navigate("BottomTab");
         } catch (error) {
             console.log(error);
             setError("Failed to sign in.");

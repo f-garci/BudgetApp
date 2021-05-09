@@ -6,7 +6,6 @@ import {
     REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
     REACT_APP_FIREBASE_APP_ID,
 } from "@env";
-
 const config = {
     apiKey: `${REACT_APP_FIREBASE_API_KEY}`,
     authDomain: `${REACT_APP_FIREBASE_AUTH_DOMAIN}`,
