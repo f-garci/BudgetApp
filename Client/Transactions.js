@@ -13,7 +13,7 @@ import {
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
-import Dropdown from "./Dropdown";
+import Dropdown from "../Components/Dropdown";
 
 import { useSelector } from "react-redux";
 
