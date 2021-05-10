@@ -15,25 +15,12 @@ import { database } from "../firebase";
 import { Card } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import { modalVisible } from "../store/actions/actionTypes";
+import TransactionModal from "../Components/TransactionModal";
 
 const Overview = (props) => {
-    const [error, setError] = useState("");
-    const [userName, setUserName] = useState("");
-    const [transAmount, setTransAmount] = useState(0);
-    const { logout, currentUser } = useAuth();
+    const { currentUser } = useAuth();
     const modalVis = useSelector((state) => state.account.modalVisible);
-    const dispatch = useDispatch();
 
-    async function handleLogout() {
-        setError("");
-
-        try {
-            await logout();
-            props.navigation.navigate(Login);
-        } catch {
-            setError("Failed to logout");
-        }
-    }
     const getTransactions = () => {
         const [transactions, setTransactions] = useState([]);
 
@@ -56,6 +43,7 @@ const Overview = (props) => {
 
         return transactions;
     };
+
     const renderTransactions = () => {
         const data = getTransactions().slice(0, 3);
 
@@ -68,18 +56,6 @@ const Overview = (props) => {
                 />
             </View>
         );
-    };
-
-    const submitTransaction = (e) => {
-        e.preventDefault();
-
-        database.transactions.add({
-            budget: 1000,
-            transAm: transAmount,
-            createdAt: database.getCurrentTimestamp(),
-            userId: currentUser.uid,
-        });
-        setModalVisible(!modalVisible); // exits the submission view after submitting
     };
 
     const renderTransAmount = ({ item }) => (
@@ -137,59 +113,9 @@ const Overview = (props) => {
                     <Text>Test</Text>
                 </Card>
             </TouchableOpacity>
-            {modalVis && (
-                <Modal animationType="slide" transparent={true}>
-                    <View style={styles.popUpContainer}>
-                        <View style={styles.popUp}>
-                            <Text>New Transaction</Text>
-                            <TextInput onChangeText={(text) => {}} />
-                            <TouchableOpacity style={styles.submitButton}>
-                                <Text>Submit</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <Text>hi</Text>
-                    <TouchableOpacity
-                        onPress={() =>
-                            dispatch({ type: modalVisible, visible: false })
-                        }
-                    >
-                        <Text>Close Modal</Text>
-                    </TouchableOpacity>
-                </Modal>
-            )}
+            {modalVis && <TransactionModal />}
         </ScrollView>
     );
 };
-const styles = StyleSheet.create({
-    popUpContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    popUp: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-        height: "30%",
-        width: "50%",
-    },
-    submitButton: {
-        backgroundColor: "pink",
-        borderRadius: 20,
-        padding: 10,
-        elevation: 10,
-    },
-});
 
 export default Overview;
