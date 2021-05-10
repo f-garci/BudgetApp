@@ -90,7 +90,6 @@ const Transactions = (props) => {
         const data = getTransactions();
 
         const transactionMonths = [];
-        console.log();
 
         data.forEach((transaction) => {
             const month = new Date(transaction.createdAt.toDate()).getMonth();
