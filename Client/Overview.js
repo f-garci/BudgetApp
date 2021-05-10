@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
-    StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    Modal,
     FlatList,
-    TextInput,
     ScrollView,
 } from "react-native";
+
 import { useAuth } from "../contexts/AuthContext";
-import Login from "./Login";
 import { database } from "../firebase";
 import { Card } from "react-native-elements";
-import { useSelector, useDispatch } from "react-redux";
-import { modalVisible } from "../store/actions/actionTypes";
+import { useSelector } from "react-redux";
 import TransactionModal from "../Components/TransactionModal";
 
 const Overview = (props) => {
