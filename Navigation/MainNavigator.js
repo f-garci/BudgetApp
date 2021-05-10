@@ -6,8 +6,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Login from "../Client/Login";
 import SignUp from "../Client/SignUp";
-import Dashboard from "../Client/Dashboard";
-import Profile from "../Client/Profile";
 import Transactions from "../Client/Transactions";
 import Overview from "../Client/Overview";
 import Budget from "../Client/Budget";
@@ -15,7 +13,6 @@ import Spending from "../Client/Spending";
 import AddTransactions from "../Client/AddTransactions";
 import Alerts from "../Client/Alerts";
 import Settings from "../Client/Settings";
-// import Constants from "expo-constants";
 import { Icon } from "react-native-elements";
 
 const Stack = createStackNavigator();
@@ -30,7 +27,6 @@ const HomeScreenStack = () => {
                 options={{
                     headerStyle: {
                         backgroundColor: "#63A088",
-                        // transform: [{ translateY: Constants.statusBarHeight }],
                     },
                     headerTitleStyle: { color: "white" },
                 }}
@@ -41,7 +37,6 @@ const HomeScreenStack = () => {
                 options={{
                     headerStyle: {
                         backgroundColor: "#63A088",
-                        // transform: [{ translateY: Constants.statusBarHeight }],
                     },
                     headerTitleStyle: { color: "white" },
                 }}
@@ -53,42 +48,7 @@ const HomeScreenStack = () => {
                 options={{
                     headerShown: false,
                 }}
-                // options={{
-                //     headerStyle: {
-                //         backgroundColor: "#63A088",
-                //         // transform: [{ translateY: Constants.statusBarHeight }],
-                //     },
-                //     headerTitleStyle: { color: "white" },
-                //     headerLeft: null,
-                // }}
             />
-
-            {/* <Stack.Screen
-                name="Dashboard"
-                component={Dashboard}
-                options={{
-                    headerStyle: {
-                        backgroundColor: "#63A088",
-                        // transform: [{ translateY: Constants.statusBarHeight }],
-                    },
-                    headerTitleStyle: { color: "white" },
-                    headerLeft: null,
-                }}
-            /> */}
-
-            {/* <Stack.Screen
-                name="Profile"
-                component={Profile}
-                options={{
-                    headerStyle: {
-                        backgroundColor: "#63A088",
-                        // transform: [{ translateY: Constants.statusBarHeight }],
-                    },
-                    headerTitleStyle: { color: "white" },
-                    headerLeft: null,
-                }}
-            /> */}
-            {/* <Stack.Screen name="History" component={Transactions} /> */}
         </Stack.Navigator>
     );
 };
