@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Login from "../Client/Login";
 import SignUp from "../Client/SignUp";
+
 import Transactions from "../Client/Transactions";
 import Overview from "../Client/Overview";
 import Budget from "../Client/Budget";
@@ -14,6 +15,8 @@ import AddTransactions from "../Client/AddTransactions";
 import Alerts from "../Client/Alerts";
 import Settings from "../Client/Settings";
 import { Icon } from "react-native-elements";
+import { useDispatch } from "react-redux";
+import { modalVisible } from "../store/actions/actionTypes";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,6 +57,8 @@ const HomeScreenStack = () => {
 };
 
 const OverviewStack = () => {
+    const dispatch = useDispatch();
+
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -67,8 +72,13 @@ const OverviewStack = () => {
                     title: "Overview",
                     headerRight: () => (
                         <TouchableOpacity
-                            onPress={() =>
-                                navigation.navigate("AddTransactions")
+                            onPress={
+                                () =>
+                                    dispatch({
+                                        type: modalVisible,
+                                        visible: true,
+                                    })
+                                // navigation.navigate("AddTransactions")
                             }
                         >
                             <Text style={styles.plusButton}> + </Text>

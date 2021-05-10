@@ -35,9 +35,9 @@ const Transactions = (props) => {
         "December",
     ];
     const selectedMonth = useSelector((state) => {
-        console.log(state.month.month);
+        console.log(state.account.month);
         console.clear();
-        return state.month.month;
+        return state.account.month;
     });
 
     const renderFiltered = ({ item }) => {
