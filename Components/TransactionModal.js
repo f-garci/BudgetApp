@@ -41,12 +41,22 @@ export default TransactionModal = () => {
                             setTransaction(+text);
                         }}
                     />
-                    <TouchableOpacity
-                        style={styles.submitButton}
-                        onPress={submitTransaction}
-                    >
-                        <Text>Submit</Text>
-                    </TouchableOpacity>
+                    <View style={{ flexDirection: "row" }}>
+                        <TouchableOpacity
+                            style={styles.submitButton}
+                            onPress={submitTransaction}
+                        >
+                            <Text>Submit</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.cancelButton}
+                            onPress={() =>
+                                dispatch({ type: modalVisible, visible: false })
+                            }
+                        >
+                            <Text>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
             <Text>hi</Text>
@@ -84,6 +94,12 @@ const styles = StyleSheet.create({
     },
     submitButton: {
         backgroundColor: "pink",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 10,
+    },
+    cancelButton: {
+        backgroundColor: "gray",
         borderRadius: 20,
         padding: 10,
         elevation: 10,
