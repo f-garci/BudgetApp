@@ -7,19 +7,22 @@ import {
     Modal,
     FlatList,
     TextInput,
-    ScrollView
+    ScrollView,
 } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 import Login from "./Login";
 import { database } from "../firebase";
-import { Card } from 'react-native-elements'
+import { Card } from "react-native-elements";
+import { useSelector, useDispatch } from "react-redux";
+import { modalVisible } from "../store/actions/actionTypes";
 
 const Overview = (props) => {
     const [error, setError] = useState("");
     const [userName, setUserName] = useState("");
-    const [modalVisible, setModalVisible] = useState(false);
     const [transAmount, setTransAmount] = useState(0);
     const { logout, currentUser } = useAuth();
+    const modalVis = useSelector((state) => state.account.modalVisible);
+    const dispatch = useDispatch();
 
     async function handleLogout() {
         setError("");
@@ -90,7 +93,6 @@ const Overview = (props) => {
                     (e.g. Fri Apr 23 2021 12:26:11 GMT-0700 (PDT))
                     `.toLocaleDateString()` prints the date in the following format: {mm/dd/yyyy} (e.g.04/23/2021) */}
                 <Text>
-                    
                     Day of transaction:
                     {item.createdAt
                         ? new Date(item.createdAt.toDate()).toString()
@@ -100,10 +102,11 @@ const Overview = (props) => {
         </View>
     );
 
-
     return (
         <ScrollView>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Transactions')}>
+            <TouchableOpacity
+                onPress={() => props.navigation.navigate("Transactions")}
+            >
                 <Card>
                     <Card.Title> Transactions </Card.Title>
                     <Card.Divider />
@@ -111,7 +114,9 @@ const Overview = (props) => {
                 </Card>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => props.navigation.navigate('Budget')}>
+            <TouchableOpacity
+                onPress={() => props.navigation.navigate("Budget")}
+            >
                 <Card>
                     <Card.Title> Budget </Card.Title>
                     <Card.Divider />
@@ -121,7 +126,9 @@ const Overview = (props) => {
                 </Card>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => props.navigation.navigate('Spending')}>
+            <TouchableOpacity
+                onPress={() => props.navigation.navigate("Spending")}
+            >
                 <Card>
                     <Card.Title> Spending </Card.Title>
                     <Card.Divider />
@@ -130,13 +137,59 @@ const Overview = (props) => {
                     <Text>Test</Text>
                 </Card>
             </TouchableOpacity>
-
+            {modalVis && (
+                <Modal animationType="slide" transparent={true}>
+                    <View style={styles.popUpContainer}>
+                        <View style={styles.popUp}>
+                            <Text>New Transaction</Text>
+                            <TextInput onChangeText={(text) => {}} />
+                            <TouchableOpacity style={styles.submitButton}>
+                                <Text>Submit</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <Text>hi</Text>
+                    <TouchableOpacity
+                        onPress={() =>
+                            dispatch({ type: modalVisible, visible: false })
+                        }
+                    >
+                        <Text>Close Modal</Text>
+                    </TouchableOpacity>
+                </Modal>
+            )}
         </ScrollView>
-    )
-
-}
+    );
+};
 const styles = StyleSheet.create({
-
+    popUpContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    popUp: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        height: "30%",
+        width: "50%",
+    },
+    submitButton: {
+        backgroundColor: "pink",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 10,
+    },
 });
 
 export default Overview;
