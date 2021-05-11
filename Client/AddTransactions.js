@@ -4,7 +4,6 @@ import {
     View,
     Text,
     StyleSheet,
-    Button,
     TextInput,
     TouchableOpacity,
 } from "react-native";
@@ -14,7 +13,8 @@ import { useAuth } from "../contexts/AuthContext";
 
 const AddTranscations = (props) => {
     const [transAmount, setTransAmount] = useState(0);
-    const { logout, currentUser } = useAuth();
+
+    const { currentUser } = useAuth();
 
     const submitTransaction = (e) => {
         e.preventDefault();
@@ -25,7 +25,6 @@ const AddTranscations = (props) => {
             createdAt: database.getCurrentTimestamp(),
             userId: currentUser.uid,
         });
-        //setModalVisible(!modalVisible); // exits the submission view after submitting
     };
 
     return (
