@@ -8,30 +8,29 @@ import {
 } from "react-native";
 
 import { selected } from "../store/actions/actionTypes";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const Dropdown = ({ items = [] }) => {
+    const selectedMonth = useSelector((state) => state.account.month);
     const dispatch = useDispatch();
 
     const [open, setOpen] = useState(false);
-    const [selection, setSelection] = useState([]);
     const toggle = () => setOpen(!open);
 
     const handleOnClick = (item) => {
-        if (item === selection[0]) {
-            setSelection(["Select Month..."]);
+        if (item === selectedMonth) {
+            dispatch({ type: selected, month: "All" });
         } else {
             dispatch({ type: selected, month: item });
-            setSelection([item]);
         }
     };
 
     return (
         <View
             style={{
-                backgroundColor: "pink",
                 width: 150,
                 height: open ? 100 : 30,
+                borderWidth: open ? 1 : 0,
             }}
         >
             <TouchableWithoutFeedback onPress={() => toggle()}>
@@ -45,7 +44,7 @@ const Dropdown = ({ items = [] }) => {
                             padding: 5,
                         }}
                     >
-                        <Text>{selection[0]}</Text>
+                        <Text>{selectedMonth}</Text>
                         <Text>{open ? "Close" : "Open"}</Text>
                     </View>
                 </View>
@@ -57,7 +56,7 @@ const Dropdown = ({ items = [] }) => {
                         <View style={{ flex: 1 }}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    setSelection(item);
+                                    // setSelection(item);
                                     handleOnClick(item);
                                     setOpen(!open);
                                 }}
@@ -71,13 +70,12 @@ const Dropdown = ({ items = [] }) => {
                                 >
                                     <Text>{item}</Text>
                                     <Text>
-                                        {item === selection[0] && "Selected"}
+                                        {item === selectedMonth && "Selected"}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
                     )}
-                    // keyExtractor={(item) => item.id}
                 />
             )}
         </View>

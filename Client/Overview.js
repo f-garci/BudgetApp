@@ -16,6 +16,36 @@ import TransactionModal from "../Components/TransactionModal";
 const Overview = (props) => {
     const { currentUser } = useAuth();
     const modalVis = useSelector((state) => state.account.modalVisible);
+    const categoryTotal = [
+        {
+            category: "Apparel & Accessories",
+            total: 0,
+        },
+        {
+            category: "Health & Wellness",
+            total: 0,
+        },
+        {
+            category: "Pet & Pet Supplies",
+            total: 0,
+        },
+        {
+            category: "Self-care",
+            total: 0,
+        },
+        {
+            category: "Entertainment",
+            total: 0,
+        },
+        {
+            category: "Travel",
+            total: 0,
+        },
+        {
+            category: "Food",
+            total: 0,
+        },
+    ];
 
     const getTransactions = () => {
         const [transactions, setTransactions] = useState([]);
@@ -36,6 +66,16 @@ const Overview = (props) => {
 
             return unsubscribe;
         }, []);
+
+        categoryTotal.forEach((category) => {
+            transactions.forEach((transaction) => {
+                if (category.category === transaction.category) {
+                    category.total = category.total + 1;
+                }
+            });
+        });
+
+        console.log(categoryTotal);
 
         return transactions;
     };

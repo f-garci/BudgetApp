@@ -1,24 +1,14 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import {
-    Image,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    Alert,
-    FlatList,
-} from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
 import Dropdown from "../Components/Dropdown";
 
 import { useSelector } from "react-redux";
+import { Card } from "react-native-elements";
 
 const Transactions = (props) => {
-    // const [transactionMonth, setTransactionMonth] = useState("All");
     const { currentUser } = useAuth();
     const months = [
         "January",
@@ -34,33 +24,24 @@ const Transactions = (props) => {
         "November",
         "December",
     ];
-    const selectedMonth = useSelector((state) => {
-        console.log(state.account.month);
-        console.clear();
-        return state.account.month;
-    });
+    const selectedMonth = useSelector((state) => state.account.month);
 
     const renderFiltered = ({ item }) => {
-        const month = months[new Date(item.createdAt.toDate()).getMonth()];
-
-        // hard coded value for testing purposes. REMOVE LATER!!
-        if (month === selectedMonth) {
-            return (
-                <View>
-                    <View style={{ width: "100%", height: 150 }}>
-                        <Text>{item.transAm} </Text>
-                        <Text>Remaining Budget: {item.budget}</Text>
-                        <Text>
-                            {" "}
-                            Day of transaction:
-                            {item.createdAt
-                                ? new Date(item.createdAt.toDate()).toString()
-                                : ""}
-                        </Text>
-                    </View>
+        return (
+            <View>
+                <View style={{ width: 400, height: 150 }}>
+                    <Text>{item.transAm} </Text>
+                    <Text>Remaining Budget: {item.budget}</Text>
+                    <Text>
+                        {" "}
+                        Day of transaction:
+                        {item.createdAt
+                            ? new Date(item.createdAt.toDate()).toString()
+                            : ""}
+                    </Text>
                 </View>
-            );
-        }
+            </View>
+        );
     };
 
     const getTransactions = () => {
@@ -87,36 +68,57 @@ const Transactions = (props) => {
     };
 
     const renderTransactions = () => {
-        const data = getTransactions();
-
-        const transactionMonths = [];
-
-        data.forEach((transaction) => {
-            const month = new Date(transaction.createdAt.toDate()).getMonth();
-
-            if (!transactionMonths.includes(months[month])) {
-                transactionMonths.push(months[month]);
-            }
-        });
+        let data;
+        if (selectedMonth === "All") {
+            data = getTransactions();
+        } else {
+            data = getTransactions().filter(
+                (transaction) =>
+                    months[
+                        new Date(transaction.createdAt.toDate()).getMonth()
+                    ] === selectedMonth
+            );
+        }
 
         return (
-            <View>
-                <FlatList
-                    data={data}
-                    renderItem={renderFiltered}
-                    keyExtractor={(item) => item.id}
-                />
-            </View>
+            <Card>
+                <Card.Title style={{}}>
+                    <View>
+                        <Text>Your Transaction History:</Text>
+                        <Dropdown items={months} />
+                    </View>
+                </Card.Title>
+                <Card.Divider
+                    style={{
+                        height: "100%",
+                        backgroundColor: "white",
+                        width: "100%",
+                    }}
+                >
+                    {data.length > 0 ? (
+                        <FlatList
+                            data={data}
+                            renderItem={renderFiltered}
+                            keyExtractor={(item) => item.id}
+                        />
+                    ) : (
+                        <View
+                            style={{
+                                width: 350,
+                                alignItems: "center",
+                            }}
+                        >
+                            <Text>No transactions done this month.</Text>
+                        </View>
+                    )}
+                </Card.Divider>
+            </Card>
         );
     };
 
     return (
         <View style={styles.container}>
-            <View style={{ flex: 1 }}>
-                <Text>Your Transaction History:</Text>
-                <Dropdown items={months} />
-                {renderTransactions()}
-            </View>
+            <View style={{ flex: 1 }}>{renderTransactions()}</View>
         </View>
     );
 };
