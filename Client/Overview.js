@@ -12,40 +12,74 @@ import { database } from "../firebase";
 import { Card } from "react-native-elements";
 import { useSelector } from "react-redux";
 import TransactionModal from "../Components/TransactionModal";
+import { PieChart } from "react-native-chart-kit";
+import { ScreenWidth } from "react-native-elements/dist/helpers";
 
 const Overview = (props) => {
     const { currentUser } = useAuth();
     const modalVis = useSelector((state) => state.account.modalVisible);
     const categoryTotal = [
         {
-            category: "Apparel & Accessories",
+            name: "Apparel & Accessories",
             total: 0,
+            color: "rgba(131, 167, 234, 1)",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 10,
         },
         {
-            category: "Health & Wellness",
+            name: "Health & Wellness",
             total: 0,
+            color: "magenta",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 10,
         },
         {
-            category: "Pet & Pet Supplies",
+            name: "Pet & Pet Supplies",
             total: 0,
+            color: "red",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 10,
         },
         {
-            category: "Self-care",
+            name: "Self-care",
             total: 0,
+            color: "pink",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 10,
         },
         {
-            category: "Entertainment",
+            name: "Entertainment",
             total: 0,
+            color: "gold",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 10,
         },
         {
-            category: "Travel",
+            name: "Travel",
             total: 0,
+            color: "blue",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 10,
         },
         {
-            category: "Food",
+            name: "Food",
             total: 0,
+            color: "skyblue",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 10,
         },
     ];
+
+    const chartConfig = {
+        backgroundGradientFrom: "#1E2923",
+        backgroundGradientFromOpacity: 0,
+        backgroundGradientTo: "#08130D",
+        backgroundGradientToOpacity: 0.5,
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        strokeWidth: 2, // optional, default 3
+        barPercentage: 0.5,
+        useShadowColorFromDataset: false, // optional
+    };
 
     const getTransactions = () => {
         const [transactions, setTransactions] = useState([]);
@@ -69,7 +103,7 @@ const Overview = (props) => {
 
         categoryTotal.forEach((category) => {
             transactions.forEach((transaction) => {
-                if (category.category === transaction.category) {
+                if (category.name === transaction.category) {
                     category.total = category.total + 1;
                 }
             });
@@ -144,9 +178,14 @@ const Overview = (props) => {
                 <Card>
                     <Card.Title> Spending </Card.Title>
                     <Card.Divider />
-                    <Text>Test</Text>
-                    <Text>Test</Text>
-                    <Text>Test</Text>
+                    <PieChart
+                        data={categoryTotal}
+                        width={350}
+                        height={220}
+                        chartConfig={chartConfig}
+                        accessor={"total"}
+                        backgroundColor={"transparent"}
+                    />
                 </Card>
             </TouchableOpacity>
             {modalVis && <TransactionModal />}
