@@ -1,23 +1,23 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+
 import { useAuth } from "../contexts/AuthContext";
-import Login from "./Login";
+import { signedIn } from "../store/actions/actionTypes";
+
+import { useDispatch } from "react-redux";
 
 const Settings = (props) => {
     const [error, setError] = useState("");
     const { logout, currentUser } = useAuth();
+    const dispatch = useDispatch();
+
     async function handleLogout() {
         setError("");
 
         try {
             await logout();
-            props.navigation.navigate(Login);
+            dispatch({ type: signedIn, isSignedIn: false });
         } catch {
             setError("Failed to logout");
         }

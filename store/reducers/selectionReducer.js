@@ -1,8 +1,9 @@
-import { modalVisible, selected } from "../actions/actionTypes";
+import { modalVisible, selected, signedIn } from "../actions/actionTypes";
 
 const initialState = {
     month: "All",
     modalVisible: false,
+    signedIn: false,
 };
 
 const selectionReducer = (state = initialState, action) => {
@@ -11,6 +12,8 @@ const selectionReducer = (state = initialState, action) => {
             return { ...state, month: action.month };
         case modalVisible:
             return { ...state, modalVisible: action.visible };
+        case signedIn:
+            return { ...state, signedIn: action.isSignedIn };
         default:
             return state;
     }
