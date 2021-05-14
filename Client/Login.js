@@ -10,7 +10,10 @@ import {
     Alert,
 } from "react-native";
 
+import { signedIn } from "../store/actions/actionTypes";
+
 import { useAuth } from "../contexts/AuthContext";
+import { useDispatch } from "react-redux";
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
@@ -18,6 +21,8 @@ const Login = (props) => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
+
+    const dispatch = useDispatch();
 
     // Will handle login. A message will display if the login was unsuccessful.
     // If login is successful, it will redirect to the dashboard of authenticated user
@@ -36,7 +41,7 @@ const Login = (props) => {
             setError("");
             setLoading(true);
             await login(email, password);
-            props.navigation.navigate("BottomTab");
+            dispatch({ type: signedIn, isSignedIn: true });
         } catch (error) {
             console.log(error);
             setError("Failed to sign in.");
