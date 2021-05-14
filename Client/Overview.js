@@ -13,7 +13,6 @@ import { Card } from "react-native-elements";
 import { useSelector } from "react-redux";
 import TransactionModal from "../Components/TransactionModal";
 import { PieChart } from "react-native-chart-kit";
-import { ScreenWidth } from "react-native-elements/dist/helpers";
 
 const Overview = (props) => {
     const { currentUser } = useAuth();
@@ -108,9 +107,6 @@ const Overview = (props) => {
                 }
             });
         });
-
-        console.log(categoryTotal);
-
         return transactions;
     };
 
