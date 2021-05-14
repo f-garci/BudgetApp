@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { auth } from "../firebase";
+import { auth, database } from "../firebase";
 
 const AuthContext = React.createContext();
 
@@ -12,7 +12,20 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     const signup = (email, password) => {
-        return auth.createUserWithEmailAndPassword(email, password);
+        return auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((response) => {
+                database.budget.add({
+                    aa_budget: 200,
+                    hw_budget: 200,
+                    pp_budget: 200,
+                    sc_budget: 200,
+                    e_budget: 200,
+                    t_budget: 200,
+                    f_budget: 200,
+                    userId: response.user.uid,
+                });
+            });
     };
 
     const login = (email, password) => {
@@ -25,7 +38,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unsunscribe = auth.onAuthStateChanged((user) => {
-            console.log(user);
             setCurrentUser(user);
             setLoading(false);
         });

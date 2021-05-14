@@ -1,6 +1,7 @@
 const firebase = require("firebase/app");
 require("firebase/auth");
 require("firebase/firestore");
+
 import {
     REACT_APP_FIREBASE_API_KEY,
     REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -25,6 +26,7 @@ const firestore = app.firestore();
 
 const database = {
     profiles: firestore.collection("profiles"),
+    budget: firestore.collection("budget"),
     transactions: firestore.collection("transactions"),
     budget: firestore.collection("budget"),
     getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp,
