@@ -13,6 +13,9 @@ const ProgressBar = (props) => {
         value = 100;   
         color = '#eb2f06'
     }
+    if (props.completedValue <= 5 && props.completedValue != 0) {
+        value = 5;
+    }
 
 
     const fillBar = styles.fillBar(value, color)

@@ -98,71 +98,82 @@ const Overview = (props) => {
     month[10] = "November";
     month[11] = "December";
     const currentMonth = month[d.getMonth()];
-    //console.log(currentMonth)
 
-    const getTransactions = () => {
-        const [transactions, setTransactions] = useState([]);
+    const [totalBudget, setTotalBudget] = useState(0);
+    const [transactions, setTransactions] = useState([]);
+    const [sumMonthlyTransactions, setSumMonthlyTransactions] = useState(0);
 
-        useEffect(() => {
-            const unsubscribe = database.transactions
-                .where("userId", "==", currentUser.uid)
-                .orderBy("createdAt", "desc")
-                .onSnapshot((snapshot) => {
-                    const newTransaction = snapshot.docs.map((doc) => {
-                        return {
-                            id: doc.id,
-                            ...doc.data(),
-                        };
-                    });
-                    setTransactions(newTransaction);
-                    
+
+
+
+    useEffect(() => {
+        const unsubscribe = database.transactions
+            .where("userId", "==", currentUser.uid)
+            .orderBy("createdAt", "desc")
+            .onSnapshot((snapshot) => {
+                const newTransaction = snapshot.docs.map((doc) => {
+                    return {
+                        id: doc.id,
+                        ...doc.data(),
+                    };
                 });
-            
+                setTransactions(newTransaction);
+                
+                let data = newTransaction.filter(
+                    (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
+                );
+                let sum = 0;
+                sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+                setSumMonthlyTransactions(sum)
 
-            return unsubscribe;
-        }, []);
-
-        categoryTotal.forEach((category) => {
-            transactions.forEach((transaction) => {
-                if (category.name === transaction.category) {
-                    category.total = category.total + 1;
-                }
             });
+
+
+
+        return unsubscribe;
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = database.budget.where("userId", "==", currentUser.uid).onSnapshot((snapshot) => {
+            const currentBudgetList = snapshot.docs.map((doc) => {
+                return {
+                    ...doc.data()
+                }
+            })
+
+            setTotalBudget(currentBudgetList[0].aa_budget + currentBudgetList[0].hw_budget + currentBudgetList[0].pp_budget + currentBudgetList[0].sc_budget
+                + currentBudgetList[0].e_budget + currentBudgetList[0].t_budget + currentBudgetList[0].f_budget);
+
+        })
+        return unsubscribe
+    }, []);
+
+    categoryTotal.forEach((category) => {
+        transactions.forEach((transaction) => {
+            if (category.name === transaction.category) {
+                category.total = category.total + 1;
+            }
         });
+    });
 
-        // console.log(categoryTotal);
-        // console.log(transactions)
-        
+    const getTransactionsTotalThisMonth = (transactionsList) => {
+        let data = transactionsList.filter(
+            (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
+        );
+        let sum = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (typeof data[i].transAm == "string") {
+                sum += parseFloat((data[i].transAm))
+            }
+            else {
+                sum += data[i].transAm
+            }
+        }
+        return sum
+    }
 
-        return transactions;
-    };
-
-
-    // const getTransactionsTotalThisMonth = () => {
-    //     let data = getTransactions().filter(
-    //         (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
-    //     );
-        
-    //     let sum = 0;
-    //     for (var i = 0; i < data.length; i++){
-    //         // console.log(typeof data[i].transAm + "  " + data[i].transAm)
-    //         if (typeof data[i].transAm == "string"){
-    //             sum += parseFloat((data[i].transAm))
-    //         }
-    //         else {
-    //             sum += data[i].transAm
-    //         }            
-    //     }
-    //     // let sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
-
-    //     //console.log(sum)
-    //     return sum
-        
-
-    // }
-    //getTransactionsTotalThisMonth()
     const renderTransactions = () => {
-        const data = getTransactions().slice(0, 3);
+        const data = transactions.slice(0, 3);
 
         return (
             <View>
@@ -177,20 +188,29 @@ const Overview = (props) => {
 
     const renderTransAmount = ({ item }) => (
         <View>
-            <View style={{ width: 300, height: 150 }}>
-                <Text>{item.transAm} </Text>
-                <Text>Remaining Budget: {item.budget}</Text>
-                {/* in order to display the date it needs to be converted to a new Date object. 
-                    It is then converted to a string so it can be printed out in the Text tag. 
-                    `.toString()` prints the date in the following format: {`day name` month day year hours:minutes:seconds GMT-time timezone} 
-                    (e.g. Fri Apr 23 2021 12:26:11 GMT-0700 (PDT))
-                    `.toLocaleDateString()` prints the date in the following format: {mm/dd/yyyy} (e.g.04/23/2021) */}
-                <Text>
-                    Day of transaction:
-                    {item.createdAt
-                        ? new Date(item.createdAt.toDate()).toString()
-                        : ""}
-                </Text>
+            <View style={styles.transactionView}>
+                <View style={{ flex: .7 }}>
+                    <Text style={{ fontSize: 20, }}>
+                        Transaction Name
+                    </Text>
+                    <Text style={{ color: 'gray' }}>
+                        {item.category}
+                    </Text>
+                </View>
+                <View style={{ flex: .3, }}>
+                    <Text style={{ fontSize: 20, }}>
+                        ${item.transAm.toFixed(2)}
+                    </Text>
+                    {/* <Text>Remaining Budget: {item.budget}</Text> */}
+                    {/* in order to display the date it needs to be converted to a new Date object. 
+                        It is then converted to a string so it can be printed out in the Text tag. 
+                        `.toString()` prints the date in the following format: {`day name` month day year hours:minutes:seconds GMT-time timezone} 
+                        (e.g. Fri Apr 23 2021 12:26:11 GMT-0700 (PDT))
+                        `.toLocaleDateString()` prints the date in the following format: {mm/dd/yyyy} (e.g.04/23/2021) */}
+                    <Text style={{ color: 'gray' }}>
+                        {item.createdAt ? new Date(item.createdAt.toDate()).toLocaleDateString() : ""}
+                    </Text>
+                </View>
             </View>
         </View>
     );
@@ -213,8 +233,8 @@ const Overview = (props) => {
                 <Card>
                     <Card.Title> Budget </Card.Title>
                     <Card.Divider />
-                    <Text style={styles.budgetText}>You have spent out of a $1000 budget for this month.</Text>
-                    <ProgressBar completedValue={100} color={'#63A088'} totalSpent={1000} budget={1000} />
+                    <Text style={styles.budgetText}>You have spent ${sumMonthlyTransactions} out of a ${totalBudget} budget for this month.</Text>
+                    <ProgressBar completedValue={sumMonthlyTransactions/totalBudget * 100} color={'#63A088'} totalSpent={sumMonthlyTransactions} budget={totalBudget} />
                 </Card>
             </TouchableOpacity>
 
@@ -241,8 +261,13 @@ const Overview = (props) => {
 const styles = StyleSheet.create({
     budgetText: {
         fontSize: 15
+    },
+    transactionView: {
+        width: '100%',
+        height: 100,
+        flex: 1,
+        flexDirection: "row"
     }
-
 });
 
 export default Overview;

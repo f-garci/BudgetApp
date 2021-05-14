@@ -28,7 +28,6 @@ const database = {
     profiles: firestore.collection("profiles"),
     budget: firestore.collection("budget"),
     transactions: firestore.collection("transactions"),
-    budget: firestore.collection("budget"),
     getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp,
 };
 
