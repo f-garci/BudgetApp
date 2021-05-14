@@ -118,7 +118,7 @@ const Transactions = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={{ flex: 1 }}>{renderTransactions()}</View>
+            <View style={{ flex: 1}}>{renderTransactions()}</View>
         </View>
     );
 };

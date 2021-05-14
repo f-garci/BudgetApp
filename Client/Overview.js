@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     FlatList,
     ScrollView,
+    StyleSheet,
 } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -14,6 +15,7 @@ import { useSelector } from "react-redux";
 import TransactionModal from "../Components/TransactionModal";
 import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
+import ProgressBar from "../Components/ProgressBar";
 
 const Overview = (props) => {
     const { currentUser } = useAuth();
@@ -81,6 +83,23 @@ const Overview = (props) => {
         useShadowColorFromDataset: false, // optional
     };
 
+    const d = new Date();
+    const month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    const currentMonth = month[d.getMonth()];
+    //console.log(currentMonth)
+
     const getTransactions = () => {
         const [transactions, setTransactions] = useState([]);
 
@@ -96,7 +115,9 @@ const Overview = (props) => {
                         };
                     });
                     setTransactions(newTransaction);
+                    
                 });
+            
 
             return unsubscribe;
         }, []);
@@ -109,11 +130,37 @@ const Overview = (props) => {
             });
         });
 
-        console.log(categoryTotal);
+        // console.log(categoryTotal);
+        // console.log(transactions)
+        
 
         return transactions;
     };
 
+
+    // const getTransactionsTotalThisMonth = () => {
+    //     let data = getTransactions().filter(
+    //         (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
+    //     );
+        
+    //     let sum = 0;
+    //     for (var i = 0; i < data.length; i++){
+    //         // console.log(typeof data[i].transAm + "  " + data[i].transAm)
+    //         if (typeof data[i].transAm == "string"){
+    //             sum += parseFloat((data[i].transAm))
+    //         }
+    //         else {
+    //             sum += data[i].transAm
+    //         }            
+    //     }
+    //     // let sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+
+    //     //console.log(sum)
+    //     return sum
+        
+
+    // }
+    //getTransactionsTotalThisMonth()
     const renderTransactions = () => {
         const data = getTransactions().slice(0, 3);
 
@@ -154,7 +201,7 @@ const Overview = (props) => {
                 onPress={() => props.navigation.navigate("Transactions")}
             >
                 <Card>
-                    <Card.Title> Transactions </Card.Title>
+                    <Card.Title> Recent Transactions </Card.Title>
                     <Card.Divider />
                     {renderTransactions()}
                 </Card>
@@ -166,9 +213,8 @@ const Overview = (props) => {
                 <Card>
                     <Card.Title> Budget </Card.Title>
                     <Card.Divider />
-                    <Text>Test</Text>
-                    <Text>Test</Text>
-                    <Text>Test</Text>
+                    <Text style={styles.budgetText}>You have spent out of a $1000 budget for this month.</Text>
+                    <ProgressBar completedValue={100} color={'#63A088'} totalSpent={1000} budget={1000} />
                 </Card>
             </TouchableOpacity>
 
@@ -192,5 +238,11 @@ const Overview = (props) => {
         </ScrollView>
     );
 };
+const styles = StyleSheet.create({
+    budgetText: {
+        fontSize: 15
+    }
+
+});
 
 export default Overview;
