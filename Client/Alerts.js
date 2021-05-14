@@ -72,7 +72,7 @@ const Alerts = props => {
                                     <Text>You paid {item.transAm} for {item.category} on {months[
                                     new Date(item.createdAt.toDate()).getMonth()
                                     ]} {new Date(item.createdAt.toDate()).getDate()}.</Text>
-                                    <Text>Your remaining balance is {item.remainingBudget}</Text>
+                                    <Text>Your remaining balance is: {item.remainingBudget}</Text>
                                 </View>
                             )
                         }
