@@ -25,49 +25,49 @@ const Overview = (props) => {
             name: "Apparel & Accessories",
             total: 0,
             color: "#f368e0",
-            legendFontColor: "#7F7F7F",
+            legendFontColor: "white",
             legendFontSize: 10,
         },
         {
             name: "Health & Wellness",
             total: 0,
             color: "#ff9f43",
-            legendFontColor: "#7F7F7F",
+            legendFontColor: "white",
             legendFontSize: 10,
         },
         {
             name: "Pet & Pet Supplies",
             total: 0,
             color: "#ee5253",
-            legendFontColor: "#7F7F7F",
+            legendFontColor: "white",
             legendFontSize: 10,
         },
         {
             name: "Self-care",
             total: 0,
             color: "#0abde3",
-            legendFontColor: "#7F7F7F",
+            legendFontColor: "white",
             legendFontSize: 10,
         },
         {
             name: "Entertainment",
             total: 0,
             color: "#10ac84",
-            legendFontColor: "#7F7F7F",
+            legendFontColor: "white",
             legendFontSize: 10,
         },
         {
             name: "Travel",
             total: 0,
             color: "#00d2d3",
-            legendFontColor: "#7F7F7F",
+            legendFontColor: "white",
             legendFontSize: 10,
         },
         {
             name: "Food",
             total: 0,
             color: "#54a0ff",
-            legendFontColor: "#7F7F7F",
+            legendFontColor: "white",
             legendFontSize: 10,
         },
     ];
@@ -119,17 +119,26 @@ const Overview = (props) => {
     }, []);
 
     useEffect(() => {
-        const unsubscribe = database.budget.where("userId", "==", currentUser.uid).onSnapshot((snapshot) => {
-            const currentBudgetList = snapshot.docs.map((doc) => {
-                return {
-                    ...doc.data()
-                }
-            })
+        const unsubscribe = database.budget
+            .where("userId", "==", currentUser.uid)
+            .onSnapshot((snapshot) => {
+                const currentBudgetList = snapshot.docs.map((doc) => {
+                    return {
+                        ...doc.data(),
+                    };
+                });
 
-            setTotalBudget(currentBudgetList[0].aa_budget + currentBudgetList[0].hw_budget + currentBudgetList[0].pp_budget + currentBudgetList[0].sc_budget
-                + currentBudgetList[0].e_budget + currentBudgetList[0].t_budget + currentBudgetList[0].f_budget);
-        })
-        return unsubscribe
+                setTotalBudget(
+                    currentBudgetList[0].aa_budget +
+                        currentBudgetList[0].hw_budget +
+                        currentBudgetList[0].pp_budget +
+                        currentBudgetList[0].sc_budget +
+                        currentBudgetList[0].e_budget +
+                        currentBudgetList[0].t_budget +
+                        currentBudgetList[0].f_budget
+                );
+            });
+        return unsubscribe;
     }, []);
 
     // categoryTotal.forEach((category) => {
@@ -140,13 +149,11 @@ const Overview = (props) => {
     //     });
     // });
 
-
-
     const renderTransactions = () => {
         const data = transactions.slice(0, 3);
-        console.log('fired transactions')
+        console.log("fired transactions");
         return (
-            <View >
+            <View>
                 <FlatList
                     data={data}
                     renderItem={renderTransAmount}
@@ -159,16 +166,12 @@ const Overview = (props) => {
     const renderTransAmount = ({ item }) => (
         <View>
             <View style={styles.transactionView}>
-                <View style={{ flex: .7 }}>
-                    <Text style={{ fontSize: 20, }}>
-                        Transaction Name
-                    </Text>
-                    <Text style={{ color: 'gray' }}>
-                        {item.category}
-                    </Text>
+                <View style={{ flex: 0.7 }}>
+                    <Text style={{ fontSize: 20 }}>Transaction Name</Text>
+                    <Text style={{ color: "gray" }}>{item.category}</Text>
                 </View>
-                <View style={{ flex: .3, }}>
-                    <Text style={{ fontSize: 20, }}>
+                <View style={{ flex: 0.3 }}>
+                    <Text style={{ fontSize: 20 }}>
                         ${item.transAm.toFixed(2)}
                     </Text>
                     {/* <Text>Remaining Budget: {item.budget}</Text> */}
@@ -177,27 +180,34 @@ const Overview = (props) => {
                         `.toString()` prints the date in the following format: {`day name` month day year hours:minutes:seconds GMT-time timezone} 
                         (e.g. Fri Apr 23 2021 12:26:11 GMT-0700 (PDT))
                         `.toLocaleDateString()` prints the date in the following format: {mm/dd/yyyy} (e.g.04/23/2021) */}
-                    <Text style={{ color: 'gray' }}>
-                        {item.createdAt ? new Date(item.createdAt.toDate()).toLocaleDateString() : ""}
+                    <Text style={{ color: "gray" }}>
+                        {item.createdAt
+                            ? new Date(
+                                  item.createdAt.toDate()
+                              ).toLocaleDateString()
+                            : ""}
                     </Text>
                 </View>
             </View>
         </View>
     );
-    
+
     //ISSUE WITH CODE BELOW
     const getMonthlyTotal = () => {
         // for (var i = 0; i < transactionList.length; i++) {
         //     console.log('array: ' + i + ' amount: ' + transactionList[i].transAm + ' time ' + transactionList[i].createdAt)
         // }
-        
+
         // let data = transactionList.filter(
         //     (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
         // );
         let sum = 0;
-        sum = transactions.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+        sum = transactions.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.transAm,
+            0
+        );
         return sum;
-    }
+    };
 
     const getSpendingByCategory = (category) => {
         // let data = transactions.filter(
@@ -207,19 +217,24 @@ const Overview = (props) => {
             (transaction) => transaction.category === category
         );
         let sum = 0;
-        sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+        sum = data.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.transAm,
+            0
+        );
         return sum;
-    }
+    };
     categoryTotal.forEach((category) => {
         transactions.forEach((transaction) => {
             if (category.name === transaction.category) {
-                category.total = getSpendingByCategory(category.name)/getMonthlyTotal() * 100;
+                category.total =
+                    (getSpendingByCategory(category.name) / getMonthlyTotal()) *
+                    100;
             }
         });
     });
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.scrollContainer}>
             <TouchableOpacity
                 style={styles.container}
                 onPress={() => props.navigation.navigate("Transactions")}
@@ -238,8 +253,17 @@ const Overview = (props) => {
                 <Card containerStyle={styles.card}>
                     <Card.Title style={styles.cardText}> Budget </Card.Title>
                     <Card.Divider />
-                    <Text style={styles.budgetText}>You have spent ${getMonthlyTotal()} out of a ${totalBudget} budget for this month.</Text>
-                    <ProgressBar completedValue={totalBudget} color={'#63A088'} totalSpent={getMonthlyTotal()} budget={totalBudget} />
+                    <Text style={styles.budgetText}>
+                        You have spent ${Number(getMonthlyTotal()).toFixed(2)}{" "}
+                        out of a ${totalBudget.toFixed(2)} budget for this
+                        month.
+                    </Text>
+                    <ProgressBar
+                        completedValue={totalBudget}
+                        color={"#63A088"}
+                        totalSpent={Number(getMonthlyTotal()).toFixed(2)}
+                        budget={totalBudget.toFixed(2)}
+                    />
                     {/* {renderProgressBar()} */}
                 </Card>
             </TouchableOpacity>
@@ -266,31 +290,31 @@ const Overview = (props) => {
     );
 };
 const styles = StyleSheet.create({
-    budgetText: {
-        fontSize: 15
-    },
-    transactionView: {
-        width: '100%',
-        height: 100,
+    scrollContainer: {
         flex: 1,
-        flexDirection: "row"
-    }
-});
-
-export default Overview;
-
-const styles = StyleSheet.create({
-    container: {
         backgroundColor: "#98c46a",
+    },
+    container: {
+        // backgroundColor: "#98c46a",
         paddingTop: 18,
     },
     card: {
         backgroundColor: "#07706a",
-        borderColor:"#07706a",
-        borderRadius:10,
+        borderColor: "#07706a",
+        borderRadius: 10,
     },
-    cardText:{
+    cardText: {
         color: "white",
     },
-    
+    budgetText: {
+        fontSize: 15,
+    },
+    transactionView: {
+        width: "100%",
+        height: 100,
+        flex: 1,
+        flexDirection: "row",
+    },
 });
+
+export default Overview;
