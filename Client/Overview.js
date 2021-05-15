@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     FlatList,
     ScrollView,
+    StyleSheet,
 } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -13,6 +14,8 @@ import { Card } from "react-native-elements";
 import { useSelector } from "react-redux";
 import TransactionModal from "../Components/TransactionModal";
 import { PieChart } from "react-native-chart-kit";
+import { ScreenWidth } from "react-native-elements/dist/helpers";
+import ProgressBar from "../Components/ProgressBar";
 
 const Overview = (props) => {
     const { currentUser } = useAuth();
@@ -21,49 +24,49 @@ const Overview = (props) => {
         {
             name: "Apparel & Accessories",
             total: 0,
-            color: "rgba(131, 167, 234, 1)",
+            color: "#f368e0",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Health & Wellness",
             total: 0,
-            color: "magenta",
+            color: "#ff9f43",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Pet & Pet Supplies",
             total: 0,
-            color: "red",
+            color: "#ee5253",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Self-care",
             total: 0,
-            color: "pink",
+            color: "#0abde3",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Entertainment",
             total: 0,
-            color: "gold",
+            color: "#10ac84",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Travel",
             total: 0,
-            color: "blue",
+            color: "#00d2d3",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Food",
             total: 0,
-            color: "skyblue",
+            color: "#54a0ff",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
@@ -80,39 +83,68 @@ const Overview = (props) => {
         useShadowColorFromDataset: false, // optional
     };
 
-    const getTransactions = () => {
-        const [transactions, setTransactions] = useState([]);
+    const d = new Date();
+    const month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    const currentMonth = month[d.getMonth()];
 
-        useEffect(() => {
-            const unsubscribe = database.transactions
-                .where("userId", "==", currentUser.uid)
-                .orderBy("createdAt", "desc")
-                .onSnapshot((snapshot) => {
-                    const newTransaction = snapshot.docs.map((doc) => {
-                        return {
-                            id: doc.id,
-                            ...doc.data(),
-                        };
-                    });
-                    setTransactions(newTransaction);
+    const [totalBudget, setTotalBudget] = useState(0);
+    const [transactions, setTransactions] = useState([]);
+
+    useEffect(() => {
+        const unsubscribe = database.transactions
+            .where("userId", "==", currentUser.uid)
+            .orderBy("createdAt", "desc")
+            .onSnapshot((snapshot) => {
+                const newTransaction = snapshot.docs.map((doc) => {
+                    return {
+                        id: doc.id,
+                        ...doc.data(),
+                    };
                 });
-
-            return unsubscribe;
-        }, []);
-
-        categoryTotal.forEach((category) => {
-            transactions.forEach((transaction) => {
-                if (category.name === transaction.category) {
-                    category.total = category.total + 1;
-                }
+                setTransactions(newTransaction);
             });
-        });
-        return transactions;
-    };
+        return unsubscribe;
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = database.budget.where("userId", "==", currentUser.uid).onSnapshot((snapshot) => {
+            const currentBudgetList = snapshot.docs.map((doc) => {
+                return {
+                    ...doc.data()
+                }
+            })
+
+            setTotalBudget(currentBudgetList[0].aa_budget + currentBudgetList[0].hw_budget + currentBudgetList[0].pp_budget + currentBudgetList[0].sc_budget
+                + currentBudgetList[0].e_budget + currentBudgetList[0].t_budget + currentBudgetList[0].f_budget);
+        })
+        return unsubscribe
+    }, []);
+
+    // categoryTotal.forEach((category) => {
+    //     transactions.forEach((transaction) => {
+    //         if (category.name === transaction.category) {
+    //             category.total = category.total + 1;
+    //         }
+    //     });
+    // });
+
+
 
     const renderTransactions = () => {
-        const data = getTransactions().slice(0, 3);
-
+        const data = transactions.slice(0, 3);
+        console.log('fired transactions')
         return (
             <View>
                 <FlatList
@@ -126,23 +158,65 @@ const Overview = (props) => {
 
     const renderTransAmount = ({ item }) => (
         <View>
-            <View style={{ width: 300, height: 150 }}>
-                <Text>{item.transAm} </Text>
-                <Text>Remaining Budget: {item.budget}</Text>
-                {/* in order to display the date it needs to be converted to a new Date object. 
-                    It is then converted to a string so it can be printed out in the Text tag. 
-                    `.toString()` prints the date in the following format: {`day name` month day year hours:minutes:seconds GMT-time timezone} 
-                    (e.g. Fri Apr 23 2021 12:26:11 GMT-0700 (PDT))
-                    `.toLocaleDateString()` prints the date in the following format: {mm/dd/yyyy} (e.g.04/23/2021) */}
-                <Text>
-                    Day of transaction:
-                    {item.createdAt
-                        ? new Date(item.createdAt.toDate()).toString()
-                        : ""}
-                </Text>
+            <View style={styles.transactionView}>
+                <View style={{ flex: .7 }}>
+                    <Text style={{ fontSize: 20, }}>
+                        Transaction Name
+                    </Text>
+                    <Text style={{ color: 'gray' }}>
+                        {item.category}
+                    </Text>
+                </View>
+                <View style={{ flex: .3, }}>
+                    <Text style={{ fontSize: 20, }}>
+                        ${item.transAm.toFixed(2)}
+                    </Text>
+                    {/* <Text>Remaining Budget: {item.budget}</Text> */}
+                    {/* in order to display the date it needs to be converted to a new Date object. 
+                        It is then converted to a string so it can be printed out in the Text tag. 
+                        `.toString()` prints the date in the following format: {`day name` month day year hours:minutes:seconds GMT-time timezone} 
+                        (e.g. Fri Apr 23 2021 12:26:11 GMT-0700 (PDT))
+                        `.toLocaleDateString()` prints the date in the following format: {mm/dd/yyyy} (e.g.04/23/2021) */}
+                    <Text style={{ color: 'gray' }}>
+                        {item.createdAt ? new Date(item.createdAt.toDate()).toLocaleDateString() : ""}
+                    </Text>
+                </View>
             </View>
         </View>
     );
+    
+    //ISSUE WITH CODE BELOW
+    const getMonthlyTotal = () => {
+        // for (var i = 0; i < transactionList.length; i++) {
+        //     console.log('array: ' + i + ' amount: ' + transactionList[i].transAm + ' time ' + transactionList[i].createdAt)
+        // }
+        
+        // let data = transactionList.filter(
+        //     (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
+        // );
+        let sum = 0;
+        sum = transactions.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+        return sum;
+    }
+
+    const getSpendingByCategory = (category) => {
+        // let data = transactions.filter(
+        //     (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth && transaction.category === category
+        // );
+        let data = transactions.filter(
+            (transaction) => transaction.category === category
+        );
+        let sum = 0;
+        sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+        return sum;
+    }
+    categoryTotal.forEach((category) => {
+        transactions.forEach((transaction) => {
+            if (category.name === transaction.category) {
+                category.total = getSpendingByCategory(category.name)/getMonthlyTotal() * 100;
+            }
+        });
+    });
 
     return (
         <ScrollView>
@@ -150,7 +224,7 @@ const Overview = (props) => {
                 onPress={() => props.navigation.navigate("Transactions")}
             >
                 <Card>
-                    <Card.Title> Transactions </Card.Title>
+                    <Card.Title> Recent Transactions </Card.Title>
                     <Card.Divider />
                     {renderTransactions()}
                 </Card>
@@ -162,9 +236,9 @@ const Overview = (props) => {
                 <Card>
                     <Card.Title> Budget </Card.Title>
                     <Card.Divider />
-                    <Text>Test</Text>
-                    <Text>Test</Text>
-                    <Text>Test</Text>
+                    <Text style={styles.budgetText}>You have spent ${getMonthlyTotal()} out of a ${totalBudget} budget for this month.</Text>
+                    <ProgressBar completedValue={totalBudget} color={'#63A088'} totalSpent={getMonthlyTotal()} budget={totalBudget} />
+                    {/* {renderProgressBar()} */}
                 </Card>
             </TouchableOpacity>
 
@@ -188,5 +262,16 @@ const Overview = (props) => {
         </ScrollView>
     );
 };
+const styles = StyleSheet.create({
+    budgetText: {
+        fontSize: 15
+    },
+    transactionView: {
+        width: '100%',
+        height: 100,
+        flex: 1,
+        flexDirection: "row"
+    }
+});
 
 export default Overview;
