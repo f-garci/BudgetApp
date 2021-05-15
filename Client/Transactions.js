@@ -6,7 +6,7 @@ import { database } from "../firebase";
 import Dropdown from "../Components/Dropdown";
 
 import { useSelector } from "react-redux";
-import { Card } from "react-native-elements";
+import { Card, Divider } from "react-native-elements";
 
 const Transactions = (props) => {
     const { currentUser } = useAuth();
@@ -29,17 +29,25 @@ const Transactions = (props) => {
     const renderFiltered = ({ item }) => {
         return (
             <View>
-                <View style={{ width: 400, height: 150 }}>
-                    <Text>{item.transAm} </Text>
-                    <Text>Remaining Budget: {item.budget}</Text>
-                    <Text>
-                        {" "}
-                        Day of transaction:
-                        {item.createdAt
-                            ? new Date(item.createdAt.toDate()).toString()
-                            : ""}
+                <View style={styles.transactionView}>
+                    <View style={{ flex: .7 }}>
+                        <Text style={{ fontSize: 20, marginLeft: 5 }}>
+                            Transaction Name
                     </Text>
+                        <Text style={{ color: 'gray', marginLeft: 5 }}>
+                            {item.category}
+                        </Text>
+                    </View>
+                    <View style={{ flex: .3, }}>
+                        <Text style={{ fontSize: 20, marginLeft: 25 }}>
+                            ${item.transAm.toFixed(2)}
+                        </Text>
+                        <Text style={{ color: 'gray', marginLeft: 25 }}>
+                            {item.createdAt ? new Date(item.createdAt.toDate()).toLocaleDateString() : ""}
+                        </Text>
+                    </View>
                 </View>
+                <Divider style={{ height: 1 }}></Divider>
             </View>
         );
     };
@@ -117,9 +125,7 @@ const Transactions = (props) => {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={{ flex: 1}}>{renderTransactions()}</View>
-        </View>
+        <View>{renderTransactions()}</View>
     );
 };
 
@@ -130,6 +136,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
+    transactionView: {
+        width: '100%',
+        height: 100,
+        flex: 1,
+        flexDirection: "row",
+    }
 });
 
 export default Transactions;

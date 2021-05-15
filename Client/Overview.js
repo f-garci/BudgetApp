@@ -24,49 +24,49 @@ const Overview = (props) => {
         {
             name: "Apparel & Accessories",
             total: 0,
-            color: "rgba(131, 167, 234, 1)",
+            color: "#f368e0",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Health & Wellness",
             total: 0,
-            color: "magenta",
+            color: "#ff9f43",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Pet & Pet Supplies",
             total: 0,
-            color: "red",
+            color: "#ee5253",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Self-care",
             total: 0,
-            color: "pink",
+            color: "#0abde3",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Entertainment",
             total: 0,
-            color: "gold",
+            color: "#10ac84",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Travel",
             total: 0,
-            color: "blue",
+            color: "#00d2d3",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
         {
             name: "Food",
             total: 0,
-            color: "skyblue",
+            color: "#54a0ff",
             legendFontColor: "#7F7F7F",
             legendFontSize: 10,
         },
@@ -132,13 +132,15 @@ const Overview = (props) => {
         return unsubscribe
     }, []);
 
-    categoryTotal.forEach((category) => {
-        transactions.forEach((transaction) => {
-            if (category.name === transaction.category) {
-                category.total = category.total + 1;
-            }
-        });
-    });
+    // categoryTotal.forEach((category) => {
+    //     transactions.forEach((transaction) => {
+    //         if (category.name === transaction.category) {
+    //             category.total = category.total + 1;
+    //         }
+    //     });
+    // });
+
+
 
     const renderTransactions = () => {
         const data = transactions.slice(0, 3);
@@ -182,7 +184,8 @@ const Overview = (props) => {
             </View>
         </View>
     );
-
+    
+    //ISSUE WITH CODE BELOW
     const getMonthlyTotal = () => {
         // for (var i = 0; i < transactionList.length; i++) {
         //     console.log('array: ' + i + ' amount: ' + transactionList[i].transAm + ' time ' + transactionList[i].createdAt)
@@ -195,6 +198,25 @@ const Overview = (props) => {
         sum = transactions.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
         return sum;
     }
+
+    const getSpendingByCategory = (category) => {
+        // let data = transactions.filter(
+        //     (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth && transaction.category === category
+        // );
+        let data = transactions.filter(
+            (transaction) => transaction.category === category
+        );
+        let sum = 0;
+        sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+        return sum;
+    }
+    categoryTotal.forEach((category) => {
+        transactions.forEach((transaction) => {
+            if (category.name === transaction.category) {
+                category.total = getSpendingByCategory(category.name)/getMonthlyTotal() * 100;
+            }
+        });
+    });
 
     return (
         <ScrollView>

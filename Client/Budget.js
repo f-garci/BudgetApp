@@ -52,8 +52,6 @@ const Budget = props => {
                 setTransactions(newTransaction);
             });
 
-
-
         return unsubscribe;
     }, []);
 
@@ -120,7 +118,7 @@ const Budget = props => {
             <Text style={styles.categoryText}>Apparel & Accessories</Text>
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Apparel & Accessories') /aaBudget * 100} color={'#0fbcf9'}
+                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Apparel & Accessories') /aaBudget * 100} color={'#f368e0'}
                         totalSpent={getTransactionsByCategory(transactions, 'Apparel & Accessories')} budget={aaBudget} />
                 </View>
             </View>
@@ -129,7 +127,7 @@ const Budget = props => {
             <Text style={styles.categoryText}>Health & Wellness</Text>
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Health & Wellness') / hwBudget * 100} color={'#575fcf'}
+                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Health & Wellness') / hwBudget * 100} color={'#ff9f43'}
                         totalSpent={getTransactionsByCategory(transactions, 'Health & Wellness')} budget={hwBudget} />
                 </View>
             </View>
@@ -138,7 +136,7 @@ const Budget = props => {
             <Text style={styles.categoryText}>Pet & Pet Supplies</Text>
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Pet & Pet Supplies') / ppBudget * 100} color={'#ffc048'}
+                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Pet & Pet Supplies') / ppBudget * 100} color={'#ee5253'}
                         totalSpent={getTransactionsByCategory(transactions, 'Pet & Pet Supplies')} budget={ppBudget} />
                 </View>
             </View>
@@ -148,7 +146,7 @@ const Budget = props => {
 
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Self-care') / scBudget * 100} color={'#ffcccc'}
+                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Self-care') / scBudget * 100} color={'#0abde3'}
                         totalSpent={getTransactionsByCategory(transactions, 'Self-care')} budget={scBudget} />
                 </View>
 
@@ -159,7 +157,7 @@ const Budget = props => {
 
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Entertainment') / eBudget * 100} color={'#ffcccc'}
+                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Entertainment') / eBudget * 100} color={'#10ac84'}
                         totalSpent={getTransactionsByCategory(transactions, 'Entertainment')} budget={eBudget} />
                 </View>
             </View>
@@ -168,7 +166,7 @@ const Budget = props => {
             <Text style={styles.categoryText}>Travel</Text>
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Travel') / tBudget * 100} color={'#ffdd59'}
+                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Travel') / tBudget * 100} color={'#00d2d3'}
                         totalSpent={getTransactionsByCategory(transactions, 'Travel')} budget={tBudget} />
                 </View>
             </View>
@@ -178,7 +176,7 @@ const Budget = props => {
 
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Food') /fBudget * 100} color={'#ffcccc'}
+                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Food') /fBudget * 100} color={'#54a0ff'}
                         totalSpent={getTransactionsByCategory(transactions, 'Food')} budget={fBudget} />
                 </View>
 
