@@ -1,35 +1,59 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+
 import { useAuth } from "../contexts/AuthContext";
-import Login from "./Login";
+import { signedIn } from "../store/actions/actionTypes";
+
+import { useDispatch } from "react-redux";
+import { TextInput } from "react-native-gesture-handler";
 
 const Settings = (props) => {
     const [error, setError] = useState("");
     const { logout, currentUser } = useAuth();
+    const dispatch = useDispatch();
+
     async function handleLogout() {
         setError("");
 
         try {
             await logout();
-            props.navigation.navigate(Login);
+            dispatch({ type: signedIn, isSignedIn: false });
         } catch {
             setError("Failed to logout");
         }
     }
     return (
         <View style={styles.container}>
-            <TouchableOpacity
-                style={styles.logoutButton}
-                onPress={handleLogout}
+            <View style={styles.greetingContainer}>
+                <Text style={styles.greeting}>
+                    Welcome, {currentUser.email.split("@")[0]}!
+                </Text>
+            </View>
+            <View style={styles.settingsContainer}>
+                <View style={styles.settingsTabContainer}>
+                    <Text style={styles.settingsTabLabel}>Username:</Text>
+                    <TextInput
+                        placeholder={currentUser.email.split("@")[0]}
+                        style={styles.settingsTabInput}
+                        placeholderTextColor={"black"}
+                    />
+                </View>
+            </View>
+            <View
+                style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
             >
-                <Text style={{ color: "white" }}>Logout</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.logoutButton}
+                    onPress={handleLogout}
+                >
+                    <Text style={{ color: "white" }}>Logout</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -37,9 +61,33 @@ const Settings = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#98c46a",
+    },
+    greetingContainer: {
+        flex: 1,
+    },
+    greeting: {
+        fontSize: 35,
+        marginTop: 30,
+        marginBottom: 30,
+        paddingLeft: 10,
+    },
+    settingsContainer: {
+        flex: 4,
+    },
+    settingsTabContainer: {
+        flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
+    },
+    settingsTabLabel: {
+        paddingLeft: 10,
+    },
+    settingsTabInput: {
+        width: "30%",
+        borderWidth: 1,
+        padding: 3,
+        paddingLeft: 5,
+        borderRadius: 7,
+        marginLeft: 5,
     },
     logoutButton: {
         width: 70,

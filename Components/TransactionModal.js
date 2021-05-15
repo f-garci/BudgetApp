@@ -14,6 +14,7 @@ import { database } from "../firebase";
 
 import { useDispatch } from "react-redux";
 import { modalVisible } from "../store/actions/actionTypes";
+import { KeyboardAvoidingView } from "react-native";
 
 export default TransactionModal = () => {
     const [transaction, setTransaction] = useState(0);
@@ -48,6 +49,7 @@ export default TransactionModal = () => {
                         }}
                         style={{ borderWidth: 1, width: 60 }}
                         onSubmitEditing={submitTransaction}
+                        keyboardType="decimal-pad"
                     />
 
                     <View

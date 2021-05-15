@@ -14,6 +14,8 @@ import { useAuth } from "../contexts/AuthContext";
 const AddTranscations = (props) => {
     const [transAmount, setTransAmount] = useState(0);
 
+    const [remainingBudg, setRemainingBudget] = useState(0.0);
+
     const { currentUser } = useAuth();
 
     const submitTransaction = (e) => {
@@ -22,6 +24,7 @@ const AddTranscations = (props) => {
         database.transactions.add({
             budget: 1000,
             transAm: transAmount,
+            remainingBudget: 30,
             createdAt: database.getCurrentTimestamp(),
             userId: currentUser.uid,
         });

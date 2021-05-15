@@ -15,45 +15,51 @@ import AddTransactions from "../Client/AddTransactions";
 import Alerts from "../Client/Alerts";
 import Settings from "../Client/Settings";
 import { Icon } from "react-native-elements";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { modalVisible } from "../store/actions/actionTypes";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeScreenStack = () => {
+    const isSignedIn = useSelector((state) => state.account.signedIn);
+
     return (
         <Stack.Navigator>
-            <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{
-                    headerStyle: {
-                        backgroundColor: "#63A088",
-                    },
-                    // headerTitleStyle: { color: "white" },
-                    headerShown: false,
-                }}
-            />
-            <Stack.Screen
-                name="Sign Up"
-                component={SignUp}
-                options={{
-                    headerStyle: {
-                        backgroundColor: "#63A088",
-                    },
-                    headerTitleStyle: { color: "white" },
-                    headerShown: false,
-                }}
-            />
-
-            <Stack.Screen
-                name="BottomTab"
-                component={BottomTabNavigator}
-                options={{
-                    headerShown: false,
-                }}
-            />
+            {isSignedIn ? (
+                <>
+                    <Stack.Screen
+                        name="BottomTab"
+                        component={BottomTabNavigator}
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                </>
+            ) : (
+                <>
+                    <Stack.Screen
+                        name="Login"
+                        component={Login}
+                        options={{
+                            headerStyle: {
+                                backgroundColor: "#63A088",
+                            },
+                            headerTitleStyle: { color: "white" },
+                        }}
+                    />
+                    <Stack.Screen
+                        name="Sign Up"
+                        component={SignUp}
+                        options={{
+                            headerStyle: {
+                                backgroundColor: "#63A088",
+                            },
+                            headerTitleStyle: { color: "white" },
+                        }}
+                    />
+                </>
+            )}
         </Stack.Navigator>
     );
 };
