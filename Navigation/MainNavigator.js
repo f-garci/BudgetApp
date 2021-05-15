@@ -46,6 +46,7 @@ const HomeScreenStack = () => {
                                 backgroundColor: "#63A088",
                             },
                             headerTitleStyle: { color: "white" },
+                            headerShown: false,
                         }}
                     />
                     <Stack.Screen
@@ -56,6 +57,7 @@ const HomeScreenStack = () => {
                                 backgroundColor: "#63A088",
                             },
                             headerTitleStyle: { color: "white" },
+                            headerShown: false,
                         }}
                     />
                 </>
@@ -102,10 +104,6 @@ const OverviewStack = () => {
                 name="Transactions"
                 component={Transactions}
                 options={{
-                    headerStyle: {
-                        backgroundColor: "#63A088",
-                    },
-                    headerTitleStyle: { color: "white" },
                     headerTitle: "Transactions History",
                     headerShown: false,
                 }}
@@ -193,12 +191,11 @@ const SettingsStack = () => {
 const BottomTabNavigator = () => {
     return (
         <Tab.Navigator
-        tabBarOptions={{
-          activeTintColor: '#07706a',
-          inactiveTintColor: 'gray',
-          activeBackgroundColor: "#98c46a",
-        }}
-        
+            tabBarOptions={{
+                activeTintColor: "#07706a",
+                inactiveTintColor: "gray",
+                activeBackgroundColor: "#98c46a",
+            }}
         >
             <Tab.Screen
                 name="OverviewTab"

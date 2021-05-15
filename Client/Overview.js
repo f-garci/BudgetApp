@@ -11,15 +11,18 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
 import { Card, withTheme } from "react-native-elements";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import TransactionModal from "../Components/TransactionModal";
 import { PieChart } from "react-native-chart-kit";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 import ProgressBar from "../Components/ProgressBar";
+import { modalVisible } from "../store/actions/actionTypes";
 
 const Overview = (props) => {
     const { currentUser } = useAuth();
     const modalVis = useSelector((state) => state.account.modalVisible);
+    const dispatch = useDispatch();
+
     const categoryTotal = [
         {
             name: "Apparel & Accessories",
@@ -235,6 +238,7 @@ const Overview = (props) => {
 
     return (
         <ScrollView style={styles.scrollContainer}>
+            {modalVis && <TransactionModal />}
             <TouchableOpacity
                 style={styles.container}
                 onPress={() => props.navigation.navigate("Transactions")}
@@ -243,6 +247,24 @@ const Overview = (props) => {
                     <Card.Title> Recent Transactions </Card.Title>
                     <Card.Divider />
                     {renderTransactions()}
+                    <Card.Divider />
+                    <View style={{ alignItems: "center" }}>
+                        <TouchableOpacity
+                            style={{
+                                borderWidth: 1,
+                                padding: 10,
+                                borderRadius: 5,
+                            }}
+                            onPress={() =>
+                                dispatch({
+                                    type: modalVisible,
+                                    visible: true,
+                                })
+                            }
+                        >
+                            <Text>Add a Transaction</Text>
+                        </TouchableOpacity>
+                    </View>
                 </Card>
             </TouchableOpacity>
 
@@ -295,7 +317,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#98c46a",
     },
     container: {
-        // backgroundColor: "#98c46a",
         paddingTop: 18,
     },
     card: {
