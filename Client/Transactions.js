@@ -30,20 +30,24 @@ const Transactions = (props) => {
         return (
             <View>
                 <View style={styles.transactionView}>
-                    <View style={{ flex: .7 }}>
+                    <View style={{ flex: 0.6 }}>
                         <Text style={{ fontSize: 20, marginLeft: 5 }}>
                             Transaction Name
-                    </Text>
-                        <Text style={{ color: 'gray', marginLeft: 5 }}>
+                        </Text>
+                        <Text style={{ color: "gray", marginLeft: 5 }}>
                             {item.category}
                         </Text>
                     </View>
-                    <View style={{ flex: .3, }}>
+                    <View style={{ flex: 0.3 }}>
                         <Text style={{ fontSize: 20, marginLeft: 25 }}>
-                            ${item.transAm.toFixed(2)}
+                            ${Number(item.transAm).toFixed(2)}
                         </Text>
-                        <Text style={{ color: 'gray', marginLeft: 25 }}>
-                            {item.createdAt ? new Date(item.createdAt.toDate()).toLocaleDateString() : ""}
+                        <Text style={{ color: "gray", marginLeft: 25 }}>
+                            {item.createdAt
+                                ? new Date(
+                                      item.createdAt.toDate()
+                                  ).toLocaleDateString()
+                                : ""}
                         </Text>
                     </View>
                 </View>
@@ -96,54 +100,46 @@ const Transactions = (props) => {
                         <Dropdown items={months} />
                     </View>
                 </Card.Title>
-                <Card.Divider
-                    style={{
-                        height: "100%",
-                        backgroundColor: "white",
-                        width: "100%",
-                    }}
-                >
-                    {data.length > 0 ? (
-                        <FlatList
-                            data={data}
-                            renderItem={renderFiltered}
-                            keyExtractor={(item) => item.id}
-                        />
-                    ) : (
-                        <View
-                            style={{
-                                width: 350,
-                                alignItems: "center",
-                            }}
-                        >
-                            <Text>No transactions done this month.</Text>
-                        </View>
-                    )}
-                </Card.Divider>
+
+                {data.length > 0 ? (
+                    <FlatList
+                        data={data}
+                        renderItem={renderFiltered}
+                        keyExtractor={(item) => item.id}
+                    />
+                ) : (
+                    <View
+                        style={{
+                            width: 350,
+                            alignItems: "center",
+                        }}
+                    >
+                        <Text>No transactions done this month.</Text>
+                    </View>
+                )}
             </Card>
         );
     };
 
     return (
-        <View>{renderTransactions()}</View>
+        <View style={{ flex: 1, backgroundColor: "#98c46a" }}>
+            {renderTransactions()}
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#98c46a",
-        borderColor:"#98c46a",
         alignItems: "center",
         justifyContent: "center",
-        paddingTop:10,
-        // paddingBottom:10,
+        paddingTop: 10,
     },
     transactionView: {
-        width: '100%',
+        width: 400,
         height: 100,
         flex: 1,
         flexDirection: "row",
-    }
+    },
 });
 export default Transactions;
