@@ -101,10 +101,6 @@ const Overview = (props) => {
 
     const [totalBudget, setTotalBudget] = useState(0);
     const [transactions, setTransactions] = useState([]);
-    const [sumMonthlyTransactions, setSumMonthlyTransactions] = useState(0);
-
-
-
 
     useEffect(() => {
         const unsubscribe = database.transactions
@@ -118,18 +114,7 @@ const Overview = (props) => {
                     };
                 });
                 setTransactions(newTransaction);
-                
-
-
             });
-            let data = transactions.filter(
-                (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
-            );
-            let sum = 0;
-            sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
-            setSumMonthlyTransactions(sum)
-
-
         return unsubscribe;
     }, []);
 
@@ -143,20 +128,9 @@ const Overview = (props) => {
 
             setTotalBudget(currentBudgetList[0].aa_budget + currentBudgetList[0].hw_budget + currentBudgetList[0].pp_budget + currentBudgetList[0].sc_budget
                 + currentBudgetList[0].e_budget + currentBudgetList[0].t_budget + currentBudgetList[0].f_budget);
-
-
         })
         return unsubscribe
     }, []);
-
-    
-
-    //     let data = transactions.filter(
-    //         (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
-    //     );
-    //     let sum = 0;
-    //     sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
-    //     setSumMonthlyTransactions(sum)
 
     categoryTotal.forEach((category) => {
         transactions.forEach((transaction) => {
@@ -168,7 +142,7 @@ const Overview = (props) => {
 
     const renderTransactions = () => {
         const data = transactions.slice(0, 3);
-
+        console.log('fired transactions')
         return (
             <View>
                 <FlatList
@@ -209,15 +183,18 @@ const Overview = (props) => {
         </View>
     );
 
-    // const getMonthlyTotal = () => {
-    //     let data = transactions.filter(
-    //         (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
-    //     );
-    //     let sum = 0;
-    //     sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
-    //     // setSumMonthlyTransactions(sum)
-    //     return sum;
-    // }
+    const getMonthlyTotal = () => {
+        // for (var i = 0; i < transactionList.length; i++) {
+        //     console.log('array: ' + i + ' amount: ' + transactionList[i].transAm + ' time ' + transactionList[i].createdAt)
+        // }
+        
+        // let data = transactionList.filter(
+        //     (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
+        // );
+        let sum = 0;
+        sum = transactions.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+        return sum;
+    }
 
     return (
         <ScrollView>
@@ -237,8 +214,9 @@ const Overview = (props) => {
                 <Card>
                     <Card.Title> Budget </Card.Title>
                     <Card.Divider />
-                    <Text style={styles.budgetText}>You have spent $ out of a ${totalBudget} budget for this month.</Text>
-                    <ProgressBar completedValue={totalBudget} color={'#63A088'} totalSpent={100} budget={totalBudget} />
+                    <Text style={styles.budgetText}>You have spent ${getMonthlyTotal()} out of a ${totalBudget} budget for this month.</Text>
+                    <ProgressBar completedValue={totalBudget} color={'#63A088'} totalSpent={getMonthlyTotal()} budget={totalBudget} />
+                    {/* {renderProgressBar()} */}
                 </Card>
             </TouchableOpacity>
 
