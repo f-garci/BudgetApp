@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState, useEffect } from "react";
 import {
     Image,
@@ -46,12 +47,16 @@ const Login = (props) => {
     }
 
     return (
-        <View style={styles.container}>
+        // <View style={styles.container}>
+        <LinearGradient
+        colors={["#07706a", "#98c46a"]}
+        style={styles.container}
+        >
             <Image
                 source={require("../Images/1611179.png")}
                 style={{
-                    width: 90,
-                    height: 90,
+                    width: 200,
+                    height: 200,
                     transform: [{ translateY: -50 }],
                 }}
             />
@@ -94,14 +99,15 @@ const Login = (props) => {
                 <Text>Go to Profile Testing</Text>
             </TouchableOpacity>
             <StatusBar style="auto" />
-        </View>
+        </LinearGradient>
+        // </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#98c46a",
         alignItems: "center",
         justifyContent: "center",
     },
@@ -117,20 +123,20 @@ const styles = StyleSheet.create({
     inputs: {
         borderBottomWidth: 1,
         height: 40,
-        borderBottomColor: "#D3D3D3",
+        borderBottomColor: "#000000",
     },
     loginButton: {
         width: 70,
         height: 40,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "green",
+        backgroundColor: "#07706a",
         borderRadius: 5,
     },
     createProfileLink: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "gray",
+        backgroundColor: "#6d9aa8",
         width: 100,
         borderRadius: 5,
     },

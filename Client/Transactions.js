@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
@@ -28,12 +28,12 @@ const Transactions = (props) => {
 
     const renderFiltered = ({ item }) => {
         return (
-            <View>
-                <View style={{ width: 400, height: 150 }}>
-                    <Text>{item.transAm} </Text>
-                    <Text>Remaining Budget: {item.budget}</Text>
-                    <Text>
-                        {" "}
+            <View  style={styles.card}>
+                <View style={{ width: 350, height: 100 }}>
+                    <Text style={styles.cardText}>{item.transAm} </Text>
+                    <Text style={{ color:"#98c46a" }}>Remaining Budget: {item.budget}</Text>
+                    <Text style={styles.cardText}>
+                        {""}
                         Day of transaction:
                         {item.createdAt
                             ? new Date(item.createdAt.toDate()).toString()
@@ -81,9 +81,9 @@ const Transactions = (props) => {
         }
 
         return (
-            <Card>
-                <Card.Title style={{}}>
-                    <View>
+            <Card containerStyle={styles.container}>
+                <Card.Title style={styles.cardText}>
+                    <View style={styles.drop}>
                         <Text>Your Transaction History:</Text>
                         <Dropdown items={months} />
                     </View>
@@ -126,10 +126,25 @@ const Transactions = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#98c46a",
+        borderColor:"#98c46a",
         alignItems: "center",
         justifyContent: "center",
+        paddingTop:10,
+        // paddingBottom:10,
     },
+    drop: {
+        backgroundColor: "#98c46a",
+        color:"white",
+        paddingTop:180,
+    },
+    card: {
+        backgroundColor: "#07706a",
+        borderColor:"#98c46a",
+    },
+    cardText:{
+        color: "white",
+    },
+    
 });
-
 export default Transactions;

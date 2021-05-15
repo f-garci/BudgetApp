@@ -4,14 +4,20 @@ import {View, Text, StyleSheet, Button} from 'react-native';
 const Budget = props => {
 
     return (
-        <View>
-            <Text>Main Screen</Text>
+        <View style={styles.container}>
+            <Text>Your Planned Budget</Text>
         </View>
     )
 
 }
-const styles = StyleSheet.create({
-
-});
 
 export default Budget;
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        backgroundColor: "#98c46a",
+        paddingTop: 50,
+    },
+    
+});
