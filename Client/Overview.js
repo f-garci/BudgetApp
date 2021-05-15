@@ -10,7 +10,7 @@ import {
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
-import { Card } from "react-native-elements";
+import { Card, withTheme } from "react-native-elements";
 import { useSelector } from "react-redux";
 import TransactionModal from "../Components/TransactionModal";
 import { PieChart } from "react-native-chart-kit";
@@ -146,7 +146,7 @@ const Overview = (props) => {
         const data = transactions.slice(0, 3);
         console.log('fired transactions')
         return (
-            <View>
+            <View >
                 <FlatList
                     data={data}
                     renderItem={renderTransAmount}
@@ -219,8 +219,9 @@ const Overview = (props) => {
     });
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
             <TouchableOpacity
+                style={styles.container}
                 onPress={() => props.navigation.navigate("Transactions")}
             >
                 <Card>
@@ -231,10 +232,11 @@ const Overview = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
+                style={styles.container}
                 onPress={() => props.navigation.navigate("Budget")}
             >
-                <Card>
-                    <Card.Title> Budget </Card.Title>
+                <Card containerStyle={styles.card}>
+                    <Card.Title style={styles.cardText}> Budget </Card.Title>
                     <Card.Divider />
                     <Text style={styles.budgetText}>You have spent ${getMonthlyTotal()} out of a ${totalBudget} budget for this month.</Text>
                     <ProgressBar completedValue={totalBudget} color={'#63A088'} totalSpent={getMonthlyTotal()} budget={totalBudget} />
@@ -243,10 +245,11 @@ const Overview = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
+                style={styles.container}
                 onPress={() => props.navigation.navigate("Spending")}
             >
-                <Card>
-                    <Card.Title> Spending </Card.Title>
+                <Card containerStyle={styles.card}>
+                    <Card.Title style={styles.cardText}> Spending </Card.Title>
                     <Card.Divider />
                     <PieChart
                         data={categoryTotal}
@@ -275,3 +278,19 @@ const styles = StyleSheet.create({
 });
 
 export default Overview;
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#98c46a",
+        paddingTop: 18,
+    },
+    card: {
+        backgroundColor: "#07706a",
+        borderColor:"#07706a",
+        borderRadius:10,
+    },
+    cardText:{
+        color: "white",
+    },
+    
+});

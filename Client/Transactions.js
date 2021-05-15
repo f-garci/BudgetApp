@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
@@ -89,9 +89,9 @@ const Transactions = (props) => {
         }
 
         return (
-            <Card>
-                <Card.Title style={{}}>
-                    <View>
+            <Card containerStyle={styles.container}>
+                <Card.Title style={styles.cardText}>
+                    <View style={styles.drop}>
                         <Text>Your Transaction History:</Text>
                         <Dropdown items={months} />
                     </View>
@@ -132,9 +132,12 @@ const Transactions = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#98c46a",
+        borderColor:"#98c46a",
         alignItems: "center",
         justifyContent: "center",
+        paddingTop:10,
+        // paddingBottom:10,
     },
     transactionView: {
         width: '100%',
@@ -143,5 +146,4 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     }
 });
-
 export default Transactions;

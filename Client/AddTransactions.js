@@ -37,7 +37,7 @@ const AddTranscations = (props) => {
             <TextInput onChangeText={(text) => setTransAmount(text)} />
             <TouchableOpacity
                 style={{
-                    backgroundColor: "pink",
+                    backgroundColor: "#98c46a",
                     borderRadius: 20,
                     padding: 10,
                     elevation: 10,

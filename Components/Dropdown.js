@@ -53,7 +53,7 @@ const Dropdown = ({ items = [] }) => {
                 <FlatList
                     data={items}
                     renderItem={({ item }) => (
-                        <View style={{ flex: 1 }}>
+                        <View >
                             <TouchableOpacity
                                 onPress={() => {
                                     // setSelection(item);

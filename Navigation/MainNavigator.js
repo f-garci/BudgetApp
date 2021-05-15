@@ -77,6 +77,7 @@ const OverviewStack = () => {
                         backgroundColor: "#63A088",
                     },
                     headerTitleStyle: { color: "white" },
+                    headerShown: false,
                     title: "Overview",
                     headerRight: () => (
                         <TouchableOpacity
@@ -106,6 +107,7 @@ const OverviewStack = () => {
                     },
                     headerTitleStyle: { color: "white" },
                     headerTitle: "Transactions History",
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
@@ -117,6 +119,7 @@ const OverviewStack = () => {
                     },
                     headerTitleStyle: { color: "white" },
                     headerTitle: "Budget Breakdown",
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
@@ -128,6 +131,7 @@ const OverviewStack = () => {
                     },
                     headerTitleStyle: { color: "white" },
                     headerTitle: "Spending Breakdown",
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
@@ -153,9 +157,10 @@ const AlertStack = () => {
                 component={Alerts}
                 options={{
                     headerStyle: {
-                        backgroundColor: "#63A088",
+                        backgroundColor: "#07706a",
                     },
                     headerTitleStyle: { color: "white" },
+                    headerShown: false,
                     headerLeft: () => {
                         return null;
                     },
@@ -172,9 +177,10 @@ const SettingsStack = () => {
                 component={Settings}
                 options={{
                     headerStyle: {
-                        backgroundColor: "#63A088",
+                        backgroundColor: "#07706a",
                     },
                     headerTitleStyle: { color: "white" },
+                    headerShown: false,
                     headerLeft: () => {
                         return null;
                     },
@@ -186,7 +192,14 @@ const SettingsStack = () => {
 
 const BottomTabNavigator = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: '#07706a',
+          inactiveTintColor: 'gray',
+          activeBackgroundColor: "#98c46a",
+        }}
+        
+        >
             <Tab.Screen
                 name="OverviewTab"
                 component={OverviewStack}
