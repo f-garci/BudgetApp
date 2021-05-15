@@ -54,8 +54,8 @@ const Login = (props) => {
     return (
         // <View style={styles.container}>
         <LinearGradient
-        colors={["#07706a", "#98c46a"]}
-        style={styles.container}
+            colors={["#07706a", "#98c46a"]}
+            style={styles.container}
         >
             <Image
                 source={require("../Images/1611179.png")}
@@ -93,16 +93,6 @@ const Login = (props) => {
                     <Text style={styles.buttonText}>Create Profile</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity
-                onPress={() => props.navigation.navigate("Dashboard")}
-            >
-                <Text>Go to Dashboard Testing</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => props.navigation.navigate("Profile")}
-            >
-                <Text>Go to Profile Testing</Text>
-            </TouchableOpacity>
             <StatusBar style="auto" />
         </LinearGradient>
         // </View>

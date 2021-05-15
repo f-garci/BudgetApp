@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { auth, database } from "../firebase";
+import { useDispatch } from "react-redux";
+import { signedIn } from "../store/actions/actionTypes";
 
 const AuthContext = React.createContext();
 
@@ -10,6 +12,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
 
     const signup = (email, password) => {
         return auth
@@ -33,7 +36,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        return auth.signOut();
+        return auth.signOut().then(() => {
+            dispatch({ type: signedIn, isSignedIn: false });
+        });
     };
 
     useEffect(() => {

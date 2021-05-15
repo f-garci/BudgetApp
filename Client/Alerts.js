@@ -10,7 +10,6 @@ import {
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
-import Dropdown from "../Components/Dropdown";
 
 const Alerts = (props) => {
     const { currentUser } = useAuth();

@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState, useEffect } from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    Button,
+    TouchableOpacity,
+    FlatList,
+} from "react-native";
 import { PieChart } from "react-native-chart-kit";
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
 import { useSelector } from "react-redux";
 import { Icon, Divider, Card } from "react-native-elements";
 
-
-
-const Spending = props => {
+const Spending = (props) => {
     const { currentUser } = useAuth();
 
     const chartConfig = {
@@ -50,7 +55,7 @@ const Spending = props => {
     ];
 
     const [transactions, setTransactions] = useState([]);
-    const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0)
+    const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
 
     useEffect(() => {
         const unsubscribe = database.transactions
@@ -68,43 +73,56 @@ const Spending = props => {
         return unsubscribe;
     }, []);
 
-
     const getTotalSpending = () => {
         let data = transactions.filter(
-            (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
+            (transaction) =>
+                month[new Date(transaction.createdAt.toDate()).getMonth()] ===
+                currentMonth
         );
         let sum = 0;
-        sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+        sum = data.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.transAm,
+            0
+        );
         return sum;
-    }
+    };
 
     const getSpendingByCategory = (category) => {
         let data = transactions.filter(
-            (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth && transaction.category === category
+            (transaction) =>
+                month[new Date(transaction.createdAt.toDate()).getMonth()] ===
+                    currentMonth && transaction.category === category
         );
         let sum = 0;
-        sum = data.reduce((accumulator, currentValue) => accumulator + currentValue.transAm, 0)
+        sum = data.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.transAm,
+            0
+        );
         return sum;
-    }
+    };
 
     const renderFiltered = ({ item }) => {
         return (
             <View>
                 <View style={styles.transactionView}>
-                    <View style={{ flex: .7 }}>
+                    <View style={{ flex: 0.7 }}>
                         <Text style={{ fontSize: 20, marginLeft: 5 }}>
                             Transaction Name
-                    </Text>
-                        <Text style={{ color: 'gray', marginLeft: 5 }}>
+                        </Text>
+                        <Text style={{ color: "gray", marginLeft: 5 }}>
                             {item.category}
                         </Text>
                     </View>
-                    <View style={{ flex: .3, }}>
+                    <View style={{ flex: 0.3 }}>
                         <Text style={{ fontSize: 20, marginLeft: 25 }}>
-                            ${item.transAm.toFixed(2)}
+                            ${Number(item.transAm).toFixed(2)}
                         </Text>
-                        <Text style={{ color: 'gray', marginLeft: 25 }}>
-                            {item.createdAt ? new Date(item.createdAt.toDate()).toLocaleDateString() : ""}
+                        <Text style={{ color: "gray", marginLeft: 25 }}>
+                            {item.createdAt
+                                ? new Date(
+                                      item.createdAt.toDate()
+                                  ).toLocaleDateString()
+                                : ""}
                         </Text>
                     </View>
                 </View>
@@ -115,28 +133,29 @@ const Spending = props => {
 
     const renderTransactions = (category) => {
         let data = transactions;
-        if (category == 'All Categories') {
+        if (category == "All Categories") {
             data = transactions.filter(
                 (transaction) =>
                     month[
-                    new Date(transaction.createdAt.toDate()).getMonth()
+                        new Date(transaction.createdAt.toDate()).getMonth()
                     ] === currentMonth
             );
-        }
-        else {
+        } else {
             data = transactions.filter(
                 (transaction) =>
                     month[
-                    new Date(transaction.createdAt.toDate()).getMonth()
+                        new Date(transaction.createdAt.toDate()).getMonth()
                     ] === currentMonth && transaction.category === category
             );
         }
         return (
-            <View style={{
-                height: "100%",
-                backgroundColor: "white",
-                width: "100%",
-            }}>
+            <View
+                style={{
+                    height: "100%",
+                    backgroundColor: "white",
+                    width: "100%",
+                }}
+            >
                 {data.length > 0 ? (
                     <FlatList
                         data={data}
@@ -144,21 +163,22 @@ const Spending = props => {
                         keyExtractor={(item) => item.id}
                     />
                 ) : (
-                    <View style={{
-                        width: 350,
-                        alignItems: "center",
-                    }}>
+                    <View
+                        style={{
+                            width: 350,
+                            alignItems: "center",
+                        }}
+                    >
                         <Text>No transactions done this month.</Text>
                     </View>
                 )}
             </View>
         );
     };
-    
+
     const getCurrentCategoryTotal = (category) => {
         let data = transactions;
-        if (category == 'All Categories') {
-
+        if (category == "All Categories") {
             const categoryTotal = [
                 {
                     name: "Apparel & Accessories",
@@ -213,17 +233,19 @@ const Spending = props => {
             categoryTotal.forEach((category) => {
                 transactions.forEach((transaction) => {
                     if (category.name === transaction.category) {
-                        category.total = getSpendingByCategory(category.name)/getTotalSpending() * 100;
+                        category.total =
+                            (getSpendingByCategory(category.name) /
+                                getTotalSpending()) *
+                            100;
                     }
                 });
             });
-            return categoryTotal
-        }
-        else {
+            return categoryTotal;
+        } else {
             data = transactions.filter(
                 (transaction) =>
                     month[
-                    new Date(transaction.createdAt.toDate()).getMonth()
+                        new Date(transaction.createdAt.toDate()).getMonth()
                     ] === currentMonth
             );
             const oneCategory = [
@@ -242,65 +264,67 @@ const Spending = props => {
                     legendFontSize: 10,
                 },
             ];
-            
-            oneCategory[0].total = getTotalSpending() - getSpendingByCategory(category)
-            oneCategory[1].name = category
-            oneCategory[1].total = getSpendingByCategory(category)
 
-            return oneCategory
+            oneCategory[0].total =
+                getTotalSpending() - getSpendingByCategory(category);
+            oneCategory[1].name = category;
+            oneCategory[1].total = getSpendingByCategory(category);
 
+            return oneCategory;
         }
-    }
+    };
 
     const renderChart = () => {
         return (
             <PieChart
-            data={getCurrentCategoryTotal(categories[currentCategoryIndex])}
-            // data = {categoryTotal}
-            width={300}
-            height={200}
-            chartConfig={chartConfig}
-            accessor={"total"}
-            backgroundColor={"transparent"}
-            paddingLeft={20}
+                data={getCurrentCategoryTotal(categories[currentCategoryIndex])}
+                // data = {categoryTotal}
+                width={300}
+                height={200}
+                chartConfig={chartConfig}
+                accessor={"total"}
+                backgroundColor={"transparent"}
+                paddingLeft={20}
             />
-        )
-    }
+        );
+    };
 
     return (
         <View style={styles.container}>
             <View style={styles.topContainer}>
                 <View style={styles.backButtonView}>
-                    <TouchableOpacity onPress={() => {
-                        console.log('pressed')
-                        if (currentCategoryIndex <= 7 && currentCategoryIndex > 0) {
-                            setCurrentCategoryIndex(currentCategoryIndex - 1)
-                        }
-                        else if (currentCategoryIndex == 0) {
-                            setCurrentCategoryIndex(7)
-                        }
-                    }
-
-
-                    }>
+                    <TouchableOpacity
+                        onPress={() => {
+                            console.log("pressed");
+                            if (
+                                currentCategoryIndex <= 7 &&
+                                currentCategoryIndex > 0
+                            ) {
+                                setCurrentCategoryIndex(
+                                    currentCategoryIndex - 1
+                                );
+                            } else if (currentCategoryIndex == 0) {
+                                setCurrentCategoryIndex(7);
+                            }
+                        }}
+                    >
                         <Icon type="ionicon" name="chevron-back-outline" />
                     </TouchableOpacity>
-                </View >
-                <View style={styles.chartView}>
-                    {renderChart()}
                 </View>
+                <View style={styles.chartView}>{renderChart()}</View>
                 <View style={styles.forwardButtonView}>
-                    <TouchableOpacity onPress={() => {
-                        console.log(currentCategoryIndex)
-                        if (currentCategoryIndex < 7) {
-                            setCurrentCategoryIndex(currentCategoryIndex + 1)
-                        }
-                        else {
-                            setCurrentCategoryIndex(0)
-                        }
-                    }
-
-                    }>
+                    <TouchableOpacity
+                        onPress={() => {
+                            console.log(currentCategoryIndex);
+                            if (currentCategoryIndex < 7) {
+                                setCurrentCategoryIndex(
+                                    currentCategoryIndex + 1
+                                );
+                            } else {
+                                setCurrentCategoryIndex(0);
+                            }
+                        }}
+                    >
                         <Icon type="ionicon" name="chevron-forward-outline" />
                     </TouchableOpacity>
                 </View>
@@ -308,7 +332,9 @@ const Spending = props => {
             <View style={styles.bottomContainer}>
                 <Divider style={{ height: 3 }}></Divider>
                 <View style={styles.titleView}>
-                    <Text style={styles.title}>{categories[currentCategoryIndex]}</Text>
+                    <Text style={styles.title}>
+                        {categories[currentCategoryIndex]}
+                    </Text>
                 </View>
                 <Divider style={{ height: 3 }}></Divider>
                 <View style={styles.transactionView}>
@@ -316,51 +342,48 @@ const Spending = props => {
                 </View>
             </View>
         </View>
-    )
-}
+    );
+};
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
     topContainer: {
-        flex: .4,
-        flexDirection: 'row',
-
+        flex: 0.4,
+        flexDirection: "row",
     },
     backButtonView: {
-        flex: .10,
-        justifyContent: 'center',
-
+        flex: 0.1,
+        justifyContent: "center",
     },
     forwardButtonView: {
-        flex: .10,
-        justifyContent: 'center',
+        flex: 0.1,
+        justifyContent: "center",
     },
     chartView: {
-        flex: .8,
-        justifyContent: 'center'
+        flex: 0.8,
+        justifyContent: "center",
     },
     bottomContainer: {
-        flex: .6,
+        flex: 0.6,
     },
     titleView: {
-        flex: .15,
+        flex: 0.15,
     },
     transactionView: {
-        flex: .85,
+        flex: 0.85,
     },
     title: {
         fontSize: 25,
         marginTop: 15,
-        marginLeft: 5
+        marginLeft: 5,
     },
     transactionView: {
-        width: '100%',
+        width: "100%",
         height: 100,
         flex: 1,
         flexDirection: "row",
-
-    }
+    },
 });
 
 export default Spending;

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
 import ProgressBar from "../Components/ProgressBar";
-import { Divider } from 'react-native-elements';
+import { Divider } from "react-native-elements";
 import { Icon } from "react-native-elements";
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
 
-const Budget = props => {
+const Budget = (props) => {
     const { currentUser } = useAuth();
-
 
     const d = new Date();
     const month = new Array();
@@ -56,70 +55,92 @@ const Budget = props => {
     }, []);
 
     useEffect(() => {
-        const unsubscribe = database.budget.where("userId", "==", currentUser.uid).onSnapshot((snapshot) => {
-            const currentBudgetList = snapshot.docs.map((doc) => {
-                return {
-                    ...doc.data()
-                }
-            })
-            
-            setTotalBudget(currentBudgetList[0].aa_budget + currentBudgetList[0].hw_budget + currentBudgetList[0].pp_budget + currentBudgetList[0].sc_budget
-                + currentBudgetList[0].e_budget + currentBudgetList[0].t_budget + currentBudgetList[0].f_budget)
-            setAaBudget(currentBudgetList[0].aa_budget)
-            setHwBudget(currentBudgetList[0].hw_budget)
-            setPpBudget(currentBudgetList[0].pp_budget)
-            setScBudget(currentBudgetList[0].sc_budget)
-            setEBudget(currentBudgetList[0].e_budget)
-            setTBudget(currentBudgetList[0].t_budget)
-            setFBudget(currentBudgetList[0].f_budget)
-            
-        })
-        return unsubscribe
+        const unsubscribe = database.budget
+            .where("userId", "==", currentUser.uid)
+            .onSnapshot((snapshot) => {
+                const currentBudgetList = snapshot.docs.map((doc) => {
+                    return {
+                        ...doc.data(),
+                    };
+                });
+
+                setTotalBudget(
+                    currentBudgetList[0].aa_budget +
+                        currentBudgetList[0].hw_budget +
+                        currentBudgetList[0].pp_budget +
+                        currentBudgetList[0].sc_budget +
+                        currentBudgetList[0].e_budget +
+                        currentBudgetList[0].t_budget +
+                        currentBudgetList[0].f_budget
+                );
+                setAaBudget(currentBudgetList[0].aa_budget);
+                setHwBudget(currentBudgetList[0].hw_budget);
+                setPpBudget(currentBudgetList[0].pp_budget);
+                setScBudget(currentBudgetList[0].sc_budget);
+                setEBudget(currentBudgetList[0].e_budget);
+                setTBudget(currentBudgetList[0].t_budget);
+                setFBudget(currentBudgetList[0].f_budget);
+            });
+        return unsubscribe;
     }, []);
 
     const getTransactionsTotalThisMonth = (transactionsList) => {
         let data = transactionsList.filter(
-            (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
+            (transaction) =>
+                month[new Date(transaction.createdAt.toDate()).getMonth()] ===
+                currentMonth
         );
         let sum = 0;
         for (var i = 0; i < data.length; i++) {
             if (typeof data[i].transAm == "string") {
-                sum += parseFloat((data[i].transAm))
-            }
-            else {
-                sum += data[i].transAm
+                sum += parseFloat(data[i].transAm);
+            } else {
+                sum += data[i].transAm;
             }
         }
-        return sum
-    }
+        return sum;
+    };
 
     const getTransactionsByCategory = (transactionsList, transactionType) => {
         let data = transactionsList.filter(
-            (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
-                && transaction.category == transactionType);
+            (transaction) =>
+                month[new Date(transaction.createdAt.toDate()).getMonth()] ===
+                    currentMonth && transaction.category == transactionType
+        );
 
         let sum = 0;
 
         for (var i = 0; i < data.length; i++) {
             if (typeof data[i].transAm == "string") {
-                sum += parseFloat((data[i].transAm))
-            }
-            else {
-                sum += data[i].transAm
+                sum += parseFloat(data[i].transAm);
+            } else {
+                sum += data[i].transAm;
             }
         }
-        return sum
-
-    }
+        return sum;
+    };
 
     return (
         <ScrollView style={styles.container}>
-
             <Text style={styles.categoryText}>Apparel & Accessories</Text>
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Apparel & Accessories') /aaBudget * 100} color={'#f368e0'}
-                        totalSpent={getTransactionsByCategory(transactions, 'Apparel & Accessories')} budget={aaBudget} />
+                    <ProgressBar
+                        completedValue={
+                            (getTransactionsByCategory(
+                                transactions,
+                                "Apparel & Accessories"
+                            ) /
+                                aaBudget) *
+                            100
+                        }
+                        color={"#f368e0"}
+                        totalSpent={getTransactionsByCategory(
+                            transactions,
+                            "Apparel & Accessories"
+                        )}
+                        budget={aaBudget}
+                    />
                 </View>
             </View>
             <Divider style={{ height: 3 }}></Divider>
@@ -127,8 +148,22 @@ const Budget = props => {
             <Text style={styles.categoryText}>Health & Wellness</Text>
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Health & Wellness') / hwBudget * 100} color={'#ff9f43'}
-                        totalSpent={getTransactionsByCategory(transactions, 'Health & Wellness')} budget={hwBudget} />
+                    <ProgressBar
+                        completedValue={
+                            (getTransactionsByCategory(
+                                transactions,
+                                "Health & Wellness"
+                            ) /
+                                hwBudget) *
+                            100
+                        }
+                        color={"#ff9f43"}
+                        totalSpent={getTransactionsByCategory(
+                            transactions,
+                            "Health & Wellness"
+                        )}
+                        budget={hwBudget}
+                    />
                 </View>
             </View>
             <Divider style={{ height: 3 }}></Divider>
@@ -136,8 +171,22 @@ const Budget = props => {
             <Text style={styles.categoryText}>Pet & Pet Supplies</Text>
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Pet & Pet Supplies') / ppBudget * 100} color={'#ee5253'}
-                        totalSpent={getTransactionsByCategory(transactions, 'Pet & Pet Supplies')} budget={ppBudget} />
+                    <ProgressBar
+                        completedValue={
+                            (getTransactionsByCategory(
+                                transactions,
+                                "Pet & Pet Supplies"
+                            ) /
+                                ppBudget) *
+                            100
+                        }
+                        color={"#ee5253"}
+                        totalSpent={getTransactionsByCategory(
+                            transactions,
+                            "Pet & Pet Supplies"
+                        )}
+                        budget={ppBudget}
+                    />
                 </View>
             </View>
             <Divider style={{ height: 3 }}></Divider>
@@ -146,10 +195,23 @@ const Budget = props => {
 
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Self-care') / scBudget * 100} color={'#0abde3'}
-                        totalSpent={getTransactionsByCategory(transactions, 'Self-care')} budget={scBudget} />
+                    <ProgressBar
+                        completedValue={
+                            (getTransactionsByCategory(
+                                transactions,
+                                "Self-care"
+                            ) /
+                                scBudget) *
+                            100
+                        }
+                        color={"#0abde3"}
+                        totalSpent={getTransactionsByCategory(
+                            transactions,
+                            "Self-care"
+                        )}
+                        budget={scBudget}
+                    />
                 </View>
-
             </View>
             <Divider style={{ height: 3 }}></Divider>
 
@@ -157,8 +219,22 @@ const Budget = props => {
 
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Entertainment') / eBudget * 100} color={'#10ac84'}
-                        totalSpent={getTransactionsByCategory(transactions, 'Entertainment')} budget={eBudget} />
+                    <ProgressBar
+                        completedValue={
+                            (getTransactionsByCategory(
+                                transactions,
+                                "Entertainment"
+                            ) /
+                                eBudget) *
+                            100
+                        }
+                        color={"#10ac84"}
+                        totalSpent={getTransactionsByCategory(
+                            transactions,
+                            "Entertainment"
+                        )}
+                        budget={eBudget}
+                    />
                 </View>
             </View>
             <Divider style={{ height: 3 }}></Divider>
@@ -166,8 +242,19 @@ const Budget = props => {
             <Text style={styles.categoryText}>Travel</Text>
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Travel') / tBudget * 100} color={'#00d2d3'}
-                        totalSpent={getTransactionsByCategory(transactions, 'Travel')} budget={tBudget} />
+                    <ProgressBar
+                        completedValue={
+                            (getTransactionsByCategory(transactions, "Travel") /
+                                tBudget) *
+                            100
+                        }
+                        color={"#00d2d3"}
+                        totalSpent={getTransactionsByCategory(
+                            transactions,
+                            "Travel"
+                        )}
+                        budget={tBudget}
+                    />
                 </View>
             </View>
             <Divider style={{ height: 3 }}></Divider>
@@ -176,23 +263,39 @@ const Budget = props => {
 
             <View style={styles.categoryView}>
                 <View style={styles.progressBarView}>
-                    <ProgressBar completedValue={getTransactionsByCategory(transactions, 'Food') /fBudget * 100} color={'#54a0ff'}
-                        totalSpent={getTransactionsByCategory(transactions, 'Food')} budget={fBudget} />
+                    <ProgressBar
+                        completedValue={
+                            (getTransactionsByCategory(transactions, "Food") /
+                                fBudget) *
+                            100
+                        }
+                        color={"#54a0ff"}
+                        totalSpent={getTransactionsByCategory(
+                            transactions,
+                            "Food"
+                        )}
+                        budget={fBudget}
+                    />
                 </View>
-
             </View>
             <Divider style={{ height: 3 }}></Divider>
 
             <Text style={styles.categoryText}>Total Budget</Text>
             <View style={styles.totalBudgetView}>
-                <ProgressBar completedValue={getTransactionsTotalThisMonth(transactions) / totalBudget * 100} color={'#63A088'}
-                    totalSpent={getTransactionsTotalThisMonth(transactions)} budget={totalBudget} />
+                <ProgressBar
+                    completedValue={
+                        (getTransactionsTotalThisMonth(transactions) /
+                            totalBudget) *
+                        100
+                    }
+                    color={"#63A088"}
+                    totalSpent={getTransactionsTotalThisMonth(transactions)}
+                    budget={totalBudget}
+                />
             </View>
-
         </ScrollView>
-    )
-
-}
+    );
+};
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -200,34 +303,33 @@ const styles = StyleSheet.create({
     categoryText: {
         fontSize: 14,
         marginTop: 10,
-        marginLeft: 5
+        marginLeft: 5,
     },
     categoryView: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: "row",
     },
     progressBarView: {
-        justifyContent: 'center',
+        justifyContent: "center",
         paddingLeft: 5,
-        width: '98%',
-
+        width: "98%",
     },
     buttonView: {
-        flex: .10,
-        justifyContent: 'center'
+        flex: 0.1,
+        justifyContent: "center",
     },
     totalBudgetView: {
-        width: '98%',
-        paddingLeft: 5
-    }
-
+        width: "98%",
+        paddingLeft: 5,
+    },
+});
 export default Budget;
 
-const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        backgroundColor: "#98c46a",
-        paddingTop: 50,
-    },
-    
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex:1,
+//         backgroundColor: "#98c46a",
+//         paddingTop: 50,
+//     },
+
+// });

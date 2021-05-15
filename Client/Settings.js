@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -27,14 +26,17 @@ const Settings = (props) => {
         <View style={styles.container}>
             <View style={styles.greetingContainer}>
                 <Text style={styles.greeting}>
-                    Welcome, {currentUser.email.split("@")[0]}!
+                    Welcome,{" "}
+                    {currentUser ? currentUser.email.split("@")[0] : ""}!
                 </Text>
             </View>
             <View style={styles.settingsContainer}>
                 <View style={styles.settingsTabContainer}>
                     <Text style={styles.settingsTabLabel}>Username:</Text>
                     <TextInput
-                        placeholder={currentUser.email.split("@")[0]}
+                        placeholder={
+                            currentUser ? currentUser.email.split("@")[0] : ""
+                        }
                         style={styles.settingsTabInput}
                         placeholderTextColor={"black"}
                     />
