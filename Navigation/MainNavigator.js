@@ -46,6 +46,7 @@ const HomeScreenStack = () => {
                                 backgroundColor: "#63A088",
                             },
                             headerTitleStyle: { color: "white" },
+                            headerShown: false,
                         }}
                     />
                     <Stack.Screen
