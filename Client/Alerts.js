@@ -6,6 +6,7 @@ import {
     Button,
     SafeAreaView,
     FlatList,
+    ScrollView
 } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -52,6 +53,7 @@ const Alerts = (props) => {
 
         return (
             <View>
+                <ScrollView>
                 <FlatList
                     data={transactions}
                     renderItem={({ item }) => {
@@ -61,8 +63,8 @@ const Alerts = (props) => {
                             var amount = item.budget;
                             var update = amount - item.transAm;
                             return (
-                                <View>
-                                    <Text>
+                                <View style={styles.alertContainer}>
+                                    <Text style={styles.alertText}>
                                         You paid {item.transAm} on{" "}
                                         {
                                             months[
@@ -76,7 +78,7 @@ const Alerts = (props) => {
                                         ).getDate()}
                                         .
                                     </Text>
-                                    <Text>
+                                    <Text style={styles.alertText}>
                                         Your remaining balance is{" "}
                                         {item.remainingBudget}
                                     </Text>
@@ -86,8 +88,8 @@ const Alerts = (props) => {
                             var amount = item.budget;
                             var update = amount - item.transAm;
                             return (
-                                <View>
-                                    <Text>
+                                <View style={styles.alertContainer}>
+                                    <Text style={styles.alertText}>
                                         You paid {item.transAm} for{" "}
                                         {item.category} on{" "}
                                         {
@@ -102,7 +104,7 @@ const Alerts = (props) => {
                                         ).getDate()}
                                         .
                                     </Text>
-                                    <Text>
+                                    <Text style={styles.alertText}>
                                         Your remaining balance is:{" "}
                                         {item.remainingBudget}
                                     </Text>
@@ -111,18 +113,36 @@ const Alerts = (props) => {
                         }
                     }}
                 />
+                </ScrollView>
             </View>
         );
     };
 
     return (
         <SafeAreaView>
-            <View>
+            <View style={{backgroundColor: "#63A088", alignItems: 'center',
+        justifyContent: 'center'}}>
                 <Text>{obtainTransactions()}</Text>
             </View>
         </SafeAreaView>
     );
 };
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    alertContainer:{
+        backgroundColor: '#07706a',
+        width: 300,
+        height: 150,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 50,
+        margin: 10,
+    },
+    alertText:{
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: 'white'
+    }
+});
 
 export default Alerts;
