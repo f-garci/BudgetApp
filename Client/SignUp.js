@@ -6,8 +6,12 @@ import {
     View,
     TouchableOpacity,
     TextInput,
+    LogBox,
+    SafeAreaView,
 } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
+
+LogBox.ignoreAllLogs();
 
 const SignUp = (props) => {
     const [email, setEmail] = useState("");
@@ -45,32 +49,39 @@ const SignUp = (props) => {
     }
 
     return (
+        <SafeAreaView style={{flex:1}}>
         <View style={styles.container}>
-            <Text>Create Profile</Text>
-            <Text>{error}</Text>
-            <Text>Email</Text>
-            <TextInput onChangeText={(text) => setEmail(text)} />
-            <Text>Password</Text>
-            <TextInput onChangeText={(text) => setPassword(text)} />
-            <Text>Confirm Password</Text>
-            <TextInput onChangeText={(text) => setConfirmedPassword(text)} />
-            <TouchableOpacity
-                name={"Submit"}
-                style={styles.saveButton}
-                disabled={loading}
-                onPress={handleSignUp}
-            >
-                <Text style={{ color: "white" }}>Save</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.saveButton}
-                onPress={() => {
-                    props.navigation.navigate("Login");}}
-            >
-                <Text style={{ color: "white" }}>Back</Text>
-            </TouchableOpacity>
+              
+                <Text style={{fontSize: 30}}>Create Profile</Text>
+                <Text>{error}</Text>
+                <Text>Email:</Text>
+                <TextInput style={styles.emailTextField} onChangeText={(text) => setEmail(text)} />
+                <Text>Password:</Text>
+                <TextInput style={styles.passwordTextField} onChangeText={(text) => setPassword(text)} />
+                <Text>Confirm Password:</Text>
+                <TextInput style={styles.passwordTextField} onChangeText={(text) => setConfirmedPassword(text)} />
+            
+                <Text></Text>
+                <TouchableOpacity
+                    name={"Submit"}
+                    style={styles.saveButton}
+                    disabled={loading}
+                    onPress={handleSignUp}
+                >
+                    <Text style={{ color: "white" }}>Save</Text>
+                </TouchableOpacity>
+                <Text></Text>
+                <TouchableOpacity
+                    style={styles.saveButton}
+                    onPress={() => {
+                        props.navigation.navigate("Login");
+                    }}
+                >
+                    <Text style={{ color: "white" }}>Back</Text>
+                </TouchableOpacity>
+            
         </View>
+        </SafeAreaView>
     );
 };
 
@@ -89,6 +100,21 @@ const styles = StyleSheet.create({
         backgroundColor: "#07706a",
         borderRadius: 5,
     },
+    emailTextField: {
+        backgroundColor: "#7a9d55",
+        width: 150
+    },
+    passwordTextField: {
+        backgroundColor: "#7a9d55",
+        width: 150
+    },
+    buttonView: {
+        flex: 4,
+        flexDirection: "row"
+    },
+    inputView: {
+        flex: .6
+    }
 });
 
 export default SignUp;

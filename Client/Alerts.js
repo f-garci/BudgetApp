@@ -5,10 +5,13 @@ import {
     StyleSheet,
     SafeAreaView,
     FlatList,
+    LogBox,
 } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
+
+LogBox.ignoreAllLogs();
 
 const Alerts = (props) => {
     const { currentUser } = useAuth();
@@ -50,7 +53,7 @@ const Alerts = (props) => {
         }, []);
 
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     data={transactions}
                     renderItem={({ item }) => {
@@ -62,7 +65,7 @@ const Alerts = (props) => {
                             return (
                                 <View style={styles.alertContainer}>
                                     <Text style={styles.alertText}>
-                                        You paid {item.transAm} on{" "}
+                                        You paid ${item.transAm.toFixed(2)} on{" "}
                                         {
                                             months[
                                                 new Date(
@@ -75,10 +78,6 @@ const Alerts = (props) => {
                                         ).getDate()}
                                         .
                                     </Text>
-                                    <Text style={styles.alertText}>
-                                        Your remaining balance is{" "}
-                                        {item.remainingBudget}
-                                    </Text>
                                 </View>
                             );
                         } else {
@@ -87,7 +86,7 @@ const Alerts = (props) => {
                             return (
                                 <View style={styles.alertContainer}>
                                     <Text style={styles.alertText}>
-                                        You paid {item.transAm} for{" "}
+                                        You paid ${item.transAm.toFixed(2)} for{" "}
                                         {item.category} on{" "}
                                         {
                                             months[
@@ -101,16 +100,12 @@ const Alerts = (props) => {
                                         ).getDate()}
                                         .
                                     </Text>
-                                    <Text style={styles.alertText}>
-                                        Your remaining balance is:{" "}
-                                        {item.remainingBudget}
-                                    </Text>
                                 </View>
                             );
                         }
                     }}
                 />
-            </View>
+            </SafeAreaView>
         );
     };
 

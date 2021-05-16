@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
+import { StyleSheet, Text, View, FlatList, LogBox, SafeAreaView } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
@@ -7,6 +7,8 @@ import Dropdown from "../Components/Dropdown";
 
 import { useSelector } from "react-redux";
 import { Card, Divider } from "react-native-elements";
+
+LogBox.ignoreAllLogs();
 
 const Transactions = (props) => {
     const { currentUser } = useAuth();
@@ -28,11 +30,12 @@ const Transactions = (props) => {
 
     const renderFiltered = ({ item }) => {
         return (
+            
             <View>
                 <View style={styles.transactionView}>
                     <View style={{ flex: 0.6 }}>
                         <Text style={{ fontSize: 20, marginLeft: 10, color: "#ecfade", paddingTop:10 }}>
-                            Transaction Name
+                            {item.transactionName}
                         </Text>
                         <Text style={{ color: "white", marginLeft: 10, paddingTop:5 }}>
                             {item.category}
@@ -122,9 +125,11 @@ const Transactions = (props) => {
     };
 
     return (
+        <SafeAreaView style={{flex:1}}>
         <View style={{ flex: 1, backgroundColor: "#98c46a" }}>
             {renderTransactions()}
         </View>
+        </SafeAreaView>
     );
 };
 

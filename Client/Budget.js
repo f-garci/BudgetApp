@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
+import { View, Text, StyleSheet, LogBox, ScrollView, SafeAreaView } from "react-native";
 import ProgressBar from "../Components/ProgressBar";
 import { Divider } from "react-native-elements";
-import { Icon } from "react-native-elements";
-import { TouchableOpacity } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
+
+LogBox.ignoreAllLogs();
 
 const Budget = (props) => {
     const { currentUser } = useAuth();
@@ -122,6 +122,7 @@ const Budget = (props) => {
     };
 
     return (
+        <SafeAreaView style={{flex:1}}>
         <ScrollView style={styles.container}>
             <Text style={styles.categoryText}>Apparel & Accessories</Text>
             <View style={styles.categoryView}>
@@ -295,6 +296,7 @@ const Budget = (props) => {
                 />
             </View>
         </ScrollView>
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({

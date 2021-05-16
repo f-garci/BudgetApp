@@ -8,13 +8,15 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    Alert,
+    LogBox,
 } from "react-native";
 
 import { signedIn } from "../store/actions/actionTypes";
 
 import { useAuth } from "../contexts/AuthContext";
 import { useDispatch } from "react-redux";
+
+LogBox.ignoreAllLogs();
 
 const Login = (props) => {
     const [email, setEmail] = useState("");

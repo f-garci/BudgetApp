@@ -27,7 +27,7 @@ const database = {
     profiles: firestore.collection("profiles"),
     budget: firestore.collection("budget"),
     transactions: firestore.collection("transactions"),
-    getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp,
+    getCurrentTimestamp: firebase.firestore.Timestamp.now
 };
 
 module.exports = { auth, app, database };

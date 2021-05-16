@@ -28,6 +28,10 @@ export const AuthProvider = ({ children }) => {
                     f_budget: 200,
                     userId: response.user.uid,
                 });
+                database.profiles.add({
+                    name: "",
+                    userId: response.user.uid,
+                });
             });
     };
 
