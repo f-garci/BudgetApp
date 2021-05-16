@@ -281,7 +281,7 @@ const Overview = (props) => {
                         month.
                     </Text>
                     <ProgressBar
-                        completedValue={totalBudget}
+                        completedValue={getMonthlyTotal() / totalBudget * 100}
                         color={"#63A088"}
                         totalSpent={Number(getMonthlyTotal()).toFixed(2)}
                         budget={totalBudget.toFixed(2)}
