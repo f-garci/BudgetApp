@@ -10,7 +10,6 @@ import {
 import { PieChart } from "react-native-chart-kit";
 import { useAuth } from "../contexts/AuthContext";
 import { database } from "../firebase";
-import { useSelector } from "react-redux";
 import { Icon, Divider, Card } from "react-native-elements";
 
 const Spending = (props) => {
