@@ -170,7 +170,7 @@ const Overview = (props) => {
         <View>
             <View style={styles.transactionView}>
                 <View style={{ flex: 0.7 }}>
-                    <Text style={{ fontSize: 20 }}>Transaction Name</Text>
+                    <Text style={{ fontSize: 20 }}>{item.transactionName}</Text>
                     <Text style={{ color: "gray" }}>{item.category}</Text>
                 </View>
                 <View style={{ flex: 0.3 }}>
