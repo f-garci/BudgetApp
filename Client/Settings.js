@@ -109,8 +109,6 @@ const Settings = (props) => {
         setChanges(false);
     };
 
-    console.log(newProfiles.name);
-
     return (
         <SafeAreaView style={{flex: 1}}>
         <ScrollView style={styles.container}>

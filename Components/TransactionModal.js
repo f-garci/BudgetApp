@@ -252,7 +252,7 @@ export default TransactionModal = () => {
                             onPress={
                                 category !== ""
                                     ? submitTransaction
-                                    : console.log("error")
+                                    : console.log("")
                             }
                         >
                             <Text

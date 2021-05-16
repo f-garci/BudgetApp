@@ -296,7 +296,6 @@ const Spending = (props) => {
                 <View style={styles.backButtonView}>
                     <TouchableOpacity
                         onPress={() => {
-                            console.log("pressed");
                             if (
                                 currentCategoryIndex <= 7 &&
                                 currentCategoryIndex > 0
@@ -316,7 +315,6 @@ const Spending = (props) => {
                 <View style={styles.forwardButtonView}>
                     <TouchableOpacity
                         onPress={() => {
-                            console.log(currentCategoryIndex);
                             if (currentCategoryIndex < 7) {
                                 setCurrentCategoryIndex(
                                     currentCategoryIndex + 1
