@@ -152,7 +152,7 @@ const Spending = (props) => {
             <View
                 style={{
                     height: "100%",
-                    backgroundColor: "white",
+                    backgroundColor:"#98c46a",
                     width: "100%",
                 }}
             >
