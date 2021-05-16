@@ -102,21 +102,21 @@ const Spending = (props) => {
 
     const renderFiltered = ({ item }) => {
         return (
-            <View>
+            <View style={styles.container}>
                 <View style={styles.transactionView}>
                     <View style={{ flex: 0.7 }}>
-                        <Text style={{ fontSize: 20, marginLeft: 5 }}>
+                        <Text style={{ fontSize: 20, marginLeft: 5, color: "#ecfade", paddingTop:10 }}>
                             Transaction Name
                         </Text>
-                        <Text style={{ color: "gray", marginLeft: 5 }}>
+                        <Text style={{ color: "white", marginLeft: 10, paddingTop:5 }}>
                             {item.category}
                         </Text>
                     </View>
                     <View style={{ flex: 0.3 }}>
-                        <Text style={{ fontSize: 20, marginLeft: 25 }}>
+                        <Text style={{ fontSize: 20, marginLeft: 25,color: "#ecfade", paddingTop:10 }}>
                             ${Number(item.transAm).toFixed(2)}
                         </Text>
-                        <Text style={{ color: "gray", marginLeft: 25 }}>
+                        <Text style={{ color: "white", marginLeft: 25 , paddingTop:5}}>
                             {item.createdAt
                                 ? new Date(
                                       item.createdAt.toDate()
@@ -183,49 +183,49 @@ const Spending = (props) => {
                     name: "Apparel & Accessories",
                     total: 0,
                     color: "#f368e0",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
                 {
                     name: "Health & Wellness",
                     total: 0,
                     color: "#ff9f43",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
                 {
                     name: "Pet & Pet Supplies",
                     total: 0,
                     color: "#ee5253",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
                 {
                     name: "Self-care",
                     total: 0,
                     color: "#0abde3",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
                 {
                     name: "Entertainment",
                     total: 0,
                     color: "#10ac84",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
                 {
                     name: "Travel",
                     total: 0,
                     color: "#00d2d3",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
                 {
                     name: "Food",
                     total: 0,
                     color: "#54a0ff",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
             ];
@@ -252,14 +252,14 @@ const Spending = (props) => {
                     name: "Other Categories",
                     total: 0,
                     color: "#dfe6e9",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
                 {
                     name: "",
                     total: 0,
                     color: "#63A088",
-                    legendFontColor: "#7F7F7F",
+                    legendFontColor: "white",
                     legendFontSize: 10,
                 },
             ];
@@ -346,6 +346,11 @@ const Spending = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingTop: 10,
+        backgroundColor:"#98c46a",
+        borderColor:"#98c46a",
     },
     topContainer: {
         flex: 0.4,
@@ -382,6 +387,8 @@ const styles = StyleSheet.create({
         height: 100,
         flex: 1,
         flexDirection: "row",
+        backgroundColor:"#07706a",
+        borderRadius:10,
     },
 });
 

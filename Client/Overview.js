@@ -24,7 +24,7 @@ const Overview = (props) => {
     const modalVis = useSelector((state) => state.account.modalVisible);
     const dispatch = useDispatch();
 
-    LogBox.ignoreLogs("Setting a timer");
+    LogBox.ignoreLogs(["Setting a timer"]);
 
     const categoryTotal = [
         {
@@ -174,11 +174,11 @@ const Overview = (props) => {
         <View>
             <View style={styles.transactionView}>
                 <View style={{ flex: 0.7 }}>
-                    <Text style={{ fontSize: 20 }}>{item.transactionName}</Text>
-                    <Text style={{ color: "gray" }}>{item.category}</Text>
+                    <Text style={{ fontSize: 20, color: "#ecfade" }}>{item.transactionName}</Text>
+                    <Text style={{ color: "white" }}>{item.category}</Text>
                 </View>
                 <View style={{ flex: 0.3 }}>
-                    <Text style={{ fontSize: 20 }}>
+                    <Text style={{ fontSize: 20, color: "#ecfade" }}>
                         ${item.transAm.toFixed(2)}
                     </Text>
                     {/* <Text>Remaining Budget: {item.budget}</Text> */}
@@ -187,7 +187,7 @@ const Overview = (props) => {
                         `.toString()` prints the date in the following format: {`day name` month day year hours:minutes:seconds GMT-time timezone} 
                         (e.g. Fri Apr 23 2021 12:26:11 GMT-0700 (PDT))
                         `.toLocaleDateString()` prints the date in the following format: {mm/dd/yyyy} (e.g.04/23/2021) */}
-                    <Text style={{ color: "gray" }}>
+                    <Text style={{ color: "white" }}>
                         {item.createdAt
                             ? new Date(
                                   item.createdAt.toDate()
@@ -247,8 +247,8 @@ const Overview = (props) => {
                 style={styles.container}
                 onPress={() => props.navigation.navigate("Transactions")}
             >
-                <Card>
-                    <Card.Title> Recent Transactions </Card.Title>
+                <Card containerStyle={styles.card}>
+                    <Card.Title style={styles.cardText}> Recent Transactions </Card.Title>
                     <Card.Divider />
                     {renderTransactions()}
                     <Card.Divider />
@@ -258,6 +258,7 @@ const Overview = (props) => {
                                 borderWidth: 1,
                                 padding: 10,
                                 borderRadius: 5,
+                                borderColor: "#ecfade",
                             }}
                             onPress={() =>
                                 dispatch({
@@ -266,7 +267,7 @@ const Overview = (props) => {
                                 })
                             }
                         >
-                            <Text>Add a Transaction</Text>
+                            <Text style={styles.budgetText}>Add a Transaction</Text>
                         </TouchableOpacity>
                     </View>
                 </Card>
@@ -329,10 +330,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     cardText: {
-        color: "white",
+        color: "#ecfade",
+        fontSize: 18,
     },
     budgetText: {
         fontSize: 15,
+        color: "#ecfade",
     },
     transactionView: {
         width: "100%",

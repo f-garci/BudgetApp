@@ -90,7 +90,7 @@ const Login = (props) => {
                     style={styles.createProfileLink}
                     onPress={() => props.navigation.navigate("Sign Up")}
                 >
-                    <Text style={styles.buttonText}>Create Profile</Text>
+                    <Text style={styles.buttonText}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
             <StatusBar style="auto" />

@@ -31,18 +31,18 @@ const Transactions = (props) => {
             <View>
                 <View style={styles.transactionView}>
                     <View style={{ flex: 0.6 }}>
-                        <Text style={{ fontSize: 20, marginLeft: 5 }}>
+                        <Text style={{ fontSize: 20, marginLeft: 10, color: "#ecfade", paddingTop:10 }}>
                             Transaction Name
                         </Text>
-                        <Text style={{ color: "gray", marginLeft: 5 }}>
+                        <Text style={{ color: "white", marginLeft: 10, paddingTop:5 }}>
                             {item.category}
                         </Text>
                     </View>
                     <View style={{ flex: 0.3 }}>
-                        <Text style={{ fontSize: 20, marginLeft: 25 }}>
+                        <Text style={{ fontSize: 20, marginLeft: 25,color: "#ecfade", paddingTop:10 }}>
                             ${Number(item.transAm).toFixed(2)}
                         </Text>
-                        <Text style={{ color: "gray", marginLeft: 25 }}>
+                        <Text style={{ color: "white", marginLeft: 25, paddingTop:5 }}>
                             {item.createdAt
                                 ? new Date(
                                       item.createdAt.toDate()
@@ -134,12 +134,19 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         paddingTop: 10,
+        backgroundColor:"#98c46a",
+        borderColor:"#98c46a",
     },
     transactionView: {
         width: 400,
         height: 100,
         flex: 1,
         flexDirection: "row",
+        backgroundColor:"#07706a",
+        borderRadius:10,
+    },
+    drop:{
+        paddingTop:20,
     },
 });
 export default Transactions;

@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     },
     popUp: {
         margin: 20,
-        backgroundColor: "white",
+        backgroundColor: "#ecfade",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
@@ -313,14 +313,14 @@ const styles = StyleSheet.create({
         width: "95%",
     },
     submitButton: {
-        backgroundColor: "green",
+        backgroundColor: "#07706a",
         borderRadius: 10,
         height: 45,
         width: 90,
         justifyContent: "center",
     },
     cancelButton: {
-        backgroundColor: "gray",
+        backgroundColor: "#6d9aa8",
         borderRadius: 10,
         height: 45,
         width: 90,
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     selected: {
         height: 40,
         width: 100,
-        backgroundColor: "green",
+        backgroundColor: "#07706a",
         borderRadius: 5,
         margin: 5,
         justifyContent: "center",

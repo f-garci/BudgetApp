@@ -135,7 +135,7 @@ const Budget = (props) => {
                                 aaBudget) *
                             100
                         }
-                        color={"#f368e0"}
+                        color={"#07706a"}
                         totalSpent={getTransactionsByCategory(
                             transactions,
                             "Apparel & Accessories"
@@ -158,7 +158,7 @@ const Budget = (props) => {
                                 hwBudget) *
                             100
                         }
-                        color={"#ff9f43"}
+                        color={"#07706a"}
                         totalSpent={getTransactionsByCategory(
                             transactions,
                             "Health & Wellness"
@@ -181,7 +181,7 @@ const Budget = (props) => {
                                 ppBudget) *
                             100
                         }
-                        color={"#ee5253"}
+                        color={"#07706a"}
                         totalSpent={getTransactionsByCategory(
                             transactions,
                             "Pet & Pet Supplies"
@@ -205,7 +205,7 @@ const Budget = (props) => {
                                 scBudget) *
                             100
                         }
-                        color={"#0abde3"}
+                        color={"#07706a"}
                         totalSpent={getTransactionsByCategory(
                             transactions,
                             "Self-care"
@@ -229,7 +229,7 @@ const Budget = (props) => {
                                 eBudget) *
                             100
                         }
-                        color={"#10ac84"}
+                        color={"#07706a"}
                         totalSpent={getTransactionsByCategory(
                             transactions,
                             "Entertainment"
@@ -249,7 +249,7 @@ const Budget = (props) => {
                                 tBudget) *
                             100
                         }
-                        color={"#00d2d3"}
+                        color={"#07706a"}
                         totalSpent={getTransactionsByCategory(
                             transactions,
                             "Travel"
@@ -270,7 +270,7 @@ const Budget = (props) => {
                                 fBudget) *
                             100
                         }
-                        color={"#54a0ff"}
+                        color={"#07706a"}
                         totalSpent={getTransactionsByCategory(
                             transactions,
                             "Food"
@@ -289,7 +289,7 @@ const Budget = (props) => {
                             totalBudget) *
                         100
                     }
-                    color={"#63A088"}
+                    color={"#07706a"}
                     totalSpent={getTransactionsTotalThisMonth(transactions)}
                     budget={totalBudget}
                 />
@@ -300,10 +300,15 @@ const Budget = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:"#98c46a",
+        paddingTop:20,
     },
     categoryText: {
-        fontSize: 14,
+        fontSize: 15,
+        fontWeight: 'bold',
+        color:"black",
         marginTop: 10,
+        paddingTop: 10,
         marginLeft: 5,
     },
     categoryView: {

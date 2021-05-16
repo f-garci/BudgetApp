@@ -62,6 +62,14 @@ const SignUp = (props) => {
             >
                 <Text style={{ color: "white" }}>Save</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.saveButton}
+                onPress={() => {
+                    props.navigation.navigate("Login");}}
+            >
+                <Text style={{ color: "white" }}>Back</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -69,7 +77,7 @@ const SignUp = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#98c46a",
         alignItems: "center",
         justifyContent: "center",
     },
@@ -78,7 +86,7 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "green",
+        backgroundColor: "#07706a",
         borderRadius: 5,
     },
 });
