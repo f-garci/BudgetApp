@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Modal,
     TextInput,
+    Keyboard,
 } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 
@@ -19,6 +20,7 @@ import { KeyboardAvoidingView } from "react-native";
 export default TransactionModal = () => {
     const [transaction, setTransaction] = useState(0);
     const [category, setCategory] = useState("");
+    const [transactionName, setTransactionName] = useState("");
 
     const { currentUser } = useAuth();
     const dispatch = useDispatch();
@@ -28,6 +30,7 @@ export default TransactionModal = () => {
         e.preventDefault();
 
         database.transactions.add({
+            transactionName: transactionName,
             budget: 1000,
             category: category,
             transAm: transaction,
@@ -41,22 +44,71 @@ export default TransactionModal = () => {
         <Modal animationType="slide" transparent={true}>
             <View style={styles.popUpContainer}>
                 <View style={styles.popUp}>
-                    <Text>New Transaction</Text>
-
-                    <TextInput
-                        onChangeText={(text) => {
-                            setTransaction(+text);
+                    <View
+                        style={{
+                            justifyContent: "center",
+                            width: "100%",
                         }}
-                        style={{ borderWidth: 1, width: 60 }}
-                        onSubmitEditing={submitTransaction}
-                        keyboardType="decimal-pad"
-                    />
+                    >
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "flex-start",
+                                width: "100%",
+                                marginTop: 10,
+                                marginBottom: 10,
+                            }}
+                        >
+                            <Text style={{ marginRight: 10 }}>
+                                Transaction Name:
+                            </Text>
+                            <Text style={{ marginRight: 5 }}>$</Text>
+                            <TextInput
+                                onChangeText={(text) => {
+                                    setTransactionName(text);
+                                }}
+                                style={{
+                                    borderWidth: 1,
+                                    width: "55%",
+                                    borderRadius: 5,
+                                    paddingRight: 5,
+                                }}
+                                onSubmitEditing={() => Keyboard.dismiss()}
+                            />
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "flex-start",
+                                marginBottom: 10,
+                            }}
+                        >
+                            <Text style={{ marginRight: 71 }}>Amount:</Text>
+                            <Text style={{ marginRight: 6 }}>$</Text>
+                            <TextInput
+                                onChangeText={(text) => {
+                                    setTransaction(+text);
+                                }}
+                                style={{
+                                    borderWidth: 1,
+                                    width: "55%",
+                                    borderRadius: 5,
+                                    paddingLeft: 5,
+                                }}
+                                onSubmitEditing={() => Keyboard.dismiss()}
+                                keyboardType="decimal-pad"
+                            />
+                        </View>
+                    </View>
 
                     <View
                         style={{
                             flexDirection: "row",
                             flexWrap: "wrap",
                             justifyContent: "space-evenly",
+                            marginTop: 20,
                         }}
                     >
                         <TouchableOpacity
@@ -149,11 +201,47 @@ export default TransactionModal = () => {
                                 Travel
                             </Text>
                         </TouchableOpacity>
+                        <TouchableOpacity
+                            style={
+                                category === "Food"
+                                    ? styles.selected
+                                    : styles.unselected
+                            }
+                            onPress={() => setCategory("Food")}
+                        >
+                            <Text
+                                style={
+                                    category === "Food"
+                                        ? styles.selectedText
+                                        : styles.unselectedText
+                                }
+                            >
+                                Food
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={
+                                category === "Self-care"
+                                    ? styles.selected
+                                    : styles.unselected
+                            }
+                            onPress={() => setCategory("Self-care")}
+                        >
+                            <Text
+                                style={
+                                    category === "Self-care"
+                                        ? styles.selectedText
+                                        : styles.unselectedText
+                                }
+                            >
+                                Self-care
+                            </Text>
+                        </TouchableOpacity>
                     </View>
 
                     <View
                         style={{
-                            marginTop: 10,
+                            marginTop: 25,
                             flexDirection: "row",
                             justifyContent: "space-evenly",
                             width: 200,
@@ -167,7 +255,14 @@ export default TransactionModal = () => {
                                     : console.log("error")
                             }
                         >
-                            <Text>Submit</Text>
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    color: "white",
+                                }}
+                            >
+                                Submit
+                            </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.cancelButton}
@@ -178,7 +273,14 @@ export default TransactionModal = () => {
                                 })
                             }
                         >
-                            <Text>Cancel</Text>
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    color: "white",
+                                }}
+                            >
+                                Cancel
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -207,20 +309,22 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: "40%",
-        width: "80%",
+        height: "55%",
+        width: "95%",
     },
     submitButton: {
-        backgroundColor: "pink",
+        backgroundColor: "green",
         borderRadius: 10,
-        padding: 10,
-        elevation: 10,
+        height: 45,
+        width: 90,
+        justifyContent: "center",
     },
     cancelButton: {
         backgroundColor: "gray",
         borderRadius: 10,
-        padding: 10,
-        elevation: 10,
+        height: 45,
+        width: 90,
+        justifyContent: "center",
     },
     selected: {
         height: 40,
