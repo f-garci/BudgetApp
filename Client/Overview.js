@@ -6,6 +6,7 @@ import {
     FlatList,
     ScrollView,
     StyleSheet,
+    LogBox,
 } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -22,6 +23,8 @@ const Overview = (props) => {
     const { currentUser } = useAuth();
     const modalVis = useSelector((state) => state.account.modalVisible);
     const dispatch = useDispatch();
+
+    LogBox.ignoreLogs("Setting a timer");
 
     const categoryTotal = [
         {
