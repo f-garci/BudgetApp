@@ -131,6 +131,7 @@ const Overview = (props) => {
                     };
                 });
 
+                console.log(currentBudgetList);
                 setTotalBudget(
                     currentBudgetList[0].aa_budget +
                         currentBudgetList[0].hw_budget +

@@ -13,13 +13,14 @@ import { signedIn } from "../store/actions/actionTypes";
 
 import { useDispatch } from "react-redux";
 import { database } from "../firebase";
+import { firestore } from "firebase";
 
 const Settings = (props) => {
     const [error, setError] = useState("");
     const { logout, currentUser } = useAuth();
     const dispatch = useDispatch();
-    const [newProfile, setNewProfile] = useState();
-    const [newBudgets, setNewBudgets] = useState();
+    const [newProfiles, setNewProfiles] = useState({});
+    const [newBudgets, setNewBudgets] = useState({});
     const [profile, setProfile] = useState({ name: "" });
     const [budgets, setBudgets] = useState({
         aa_budget: 0,
@@ -30,6 +31,7 @@ const Settings = (props) => {
         sc_budget: 0,
         t_budget: 0,
     });
+    const [changes, setChanges] = useState(false);
 
     useEffect(() => {
         const unsubscribe = database.profiles
@@ -41,13 +43,11 @@ const Settings = (props) => {
                         ...doc.data(),
                     };
                 });
-                setProfile({ name: newProfile[0].name });
-                setNewProfile({ ...profile });
+                setProfile({ ...newProfile[0] });
+                setNewProfiles({ ...newProfile[0] });
             });
         return unsubscribe;
     }, []);
-
-    console.log(profile);
 
     useEffect(() => {
         const unsubscribe = database.budget
@@ -60,16 +60,10 @@ const Settings = (props) => {
                     };
                 });
                 setBudgets({
-                    aa_budget: newBudget[0].aa_budget,
-                    e_budget: newBudget[0].e_budget,
-                    f_budget: newBudget[0].f_budget,
-                    hw_budget: newBudget[0].hw_budget,
-                    pp_budget: newBudget[0].pp_budget,
-                    sc_budget: newBudget[0].sc_budget,
-                    t_budget: newBudget[0].t_budget,
+                    ...newBudget[0],
                 });
 
-                setNewBudgets({ ...budgets });
+                setNewBudgets({ ...newBudget[0] });
             });
 
         return unsubscribe;
@@ -86,8 +80,32 @@ const Settings = (props) => {
         }
     }
 
-    console.log(newBudgets);
-    console.log(budgets);
+    const updateUser = () => {
+        database.budget
+            .doc(`${budgets.id}`)
+            .update({
+                aa_budget: newBudgets.aa_budget,
+                e_budget: newBudgets.e_budget,
+                f_budget: newBudgets.f_budget,
+                hw_budget: newBudgets.hw_budget,
+                pp_budget: newBudgets.pp_budget,
+                sc_budget: newBudgets.sc_budget,
+                t_budget: newBudgets.t_budget,
+            })
+            .then(() => console.log("Updated budget!"));
+
+        database.profiles
+            .doc(`${newProfiles.id}`)
+            .update({
+                name: newProfiles.name,
+            })
+            .then(() => console.log("Updated profile!"));
+
+        setChanges(false);
+    };
+
+    console.log(newProfiles.name);
+
     return (
         <View style={styles.container}>
             <View style={styles.greetingContainer}>
@@ -106,9 +124,14 @@ const Settings = (props) => {
                         placeholderTextColor={"black"}
                         onChangeText={(text) => {
                             if (text.length === 0) {
-                                setNewProfile({ ...profile });
+                                setNewProfiles({
+                                    ...newProfiles,
+                                    name: profile.name,
+                                });
+                                setChanges(false);
                             } else {
-                                setNewProfile({ ...newProfile, name: text });
+                                setNewProfiles({ ...newProfiles, name: text });
+                                setChanges(true);
                             }
                         }}
                     />
@@ -134,12 +157,17 @@ const Settings = (props) => {
                             placeholderTextColor={"black"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
-                                    setNewBudgets({ ...budgets });
+                                    setNewBudgets({
+                                        ...newBudgets,
+                                        aa_budget: budgets.aa_budget,
+                                    });
+                                    setChanges(false);
                                 } else {
                                     setNewBudgets({
                                         ...newBudgets,
                                         aa_budget: +text,
                                     });
+                                    setChanges(true);
                                 }
                             }}
                         />
@@ -160,12 +188,17 @@ const Settings = (props) => {
                             placeholderTextColor={"black"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
-                                    setNewBudgets({ ...budgets });
+                                    setNewBudgets({
+                                        ...newBudgets,
+                                        e_budget: budgets.e_budget,
+                                    });
+                                    setChanges(false);
                                 } else {
                                     setNewBudgets({
                                         ...newBudgets,
                                         e_budget: +text,
                                     });
+                                    setChanges(true);
                                 }
                             }}
                         />
@@ -186,12 +219,17 @@ const Settings = (props) => {
                             placeholderTextColor={"black"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
-                                    setNewBudgets({ ...budgets });
+                                    setNewBudgets({
+                                        ...newBudgets,
+                                        f_budget: budgets.f_budget,
+                                    });
+                                    setChanges(false);
                                 } else {
                                     setNewBudgets({
                                         ...newBudgets,
                                         f_budget: +text,
                                     });
+                                    setChanges(true);
                                 }
                             }}
                         />
@@ -212,12 +250,17 @@ const Settings = (props) => {
                             placeholderTextColor={"black"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
-                                    setNewBudgets({ ...budgets });
+                                    setNewBudgets({
+                                        ...newBudgets,
+                                        hw_budget: budgets.hw_budget,
+                                    });
+                                    setChanges(false);
                                 } else {
                                     setNewBudgets({
                                         ...newBudgets,
                                         hw_budget: +text,
                                     });
+                                    setChanges(true);
                                 }
                             }}
                         />
@@ -238,12 +281,17 @@ const Settings = (props) => {
                             placeholderTextColor={"black"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
-                                    setNewBudgets({ ...budgets });
+                                    setNewBudgets({
+                                        ...newBudgets,
+                                        pp_budget: budgets.pp_budget,
+                                    });
+                                    setChanges(false);
                                 } else {
                                     setNewBudgets({
                                         ...newBudgets,
                                         pp_budget: +text,
                                     });
+                                    setChanges(true);
                                 }
                             }}
                         />
@@ -264,12 +312,17 @@ const Settings = (props) => {
                             placeholderTextColor={"black"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
-                                    setNewBudgets({ ...budgets });
+                                    setNewBudgets({
+                                        ...newBudgets,
+                                        sc_budget: budgets.sc_budget,
+                                    });
+                                    setChanges(false);
                                 } else {
                                     setNewBudgets({
                                         ...newBudgets,
                                         sc_budget: +text,
                                     });
+                                    setChanges(true);
                                 }
                             }}
                         />
@@ -290,12 +343,17 @@ const Settings = (props) => {
                             placeholderTextColor={"black"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
-                                    setNewBudgets({ ...budgets });
+                                    setNewBudgets({
+                                        ...newBudgets,
+                                        t_budget: budgets.t_budget,
+                                    });
+                                    setChanges(false);
                                 } else {
                                     setNewBudgets({
                                         ...newBudgets,
                                         t_budget: +text,
                                     });
+                                    setChanges(true);
                                 }
                             }}
                         />
@@ -310,9 +368,10 @@ const Settings = (props) => {
                     justifyContent: "center",
                 }}
             >
-                {(JSON.stringify(newBudgets) !== JSON.stringify(budgets) ||
-                    JSON.stringify(newProfile) !== JSON.stringify(profile)) && (
-                    <Text>Changes have been made</Text>
+                {changes && (
+                    <TouchableOpacity onPress={updateUser}>
+                        <Text>Update</Text>
+                    </TouchableOpacity>
                 )}
                 <TouchableOpacity
                     style={styles.logoutButton}
