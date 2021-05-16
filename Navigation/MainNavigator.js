@@ -70,7 +70,7 @@ const OverviewStack = () => {
     const dispatch = useDispatch();
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator >
             <Stack.Screen
                 name="Overview"
                 component={Overview}
@@ -157,7 +157,7 @@ const AlertStack = () => {
                     headerStyle: {
                         backgroundColor: "#07706a",
                     },
-                    headerTitleStyle: { color: "white" },
+                    headerTitleStyle: { color: "#98c46a" },
                     headerShown: false,
                     headerLeft: () => {
                         return null;
@@ -194,7 +194,10 @@ const BottomTabNavigator = () => {
             tabBarOptions={{
                 activeTintColor: "#07706a",
                 inactiveTintColor: "gray",
-                activeBackgroundColor: "#98c46a",
+                activeBackgroundColor: "#63A088",
+                style: {
+                    backgroundColor: "#ecfade",
+                  },
             }}
         >
             <Tab.Screen

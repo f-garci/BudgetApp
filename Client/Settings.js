@@ -113,15 +113,15 @@ const Settings = (props) => {
                     Welcome, {profile.name ? profile.name : ""}!
                 </Text>
             </View>
-            <Card>
-                <Card.Title>Profile</Card.Title>
+            <Card containerStyle={styles.card}>
+                <Card.Title style={styles.cardText}>Profile</Card.Title>
                 <Card.Divider />
                 <View style={styles.settingsContainer}>
                     <Text style={styles.settingsTabLabel}>Name:</Text>
                     <TextInput
                         placeholder={profile.name ? profile.name : ""}
                         style={styles.settingsTabInput}
-                        placeholderTextColor={"black"}
+                        placeholderTextColor={"white"}
                         onChangeText={(text) => {
                             if (text.length === 0) {
                                 setNewProfiles({
@@ -137,8 +137,8 @@ const Settings = (props) => {
                     />
                 </View>
             </Card>
-            <Card>
-                <Card.Title>Budgets</Card.Title>
+            <Card containerStyle={styles.card}>
+                <Card.Title style={styles.cardText}>Budgets</Card.Title>
                 <Card.Divider />
                 <View>
                     <View
@@ -146,15 +146,16 @@ const Settings = (props) => {
                             flexDirection: "row",
                             alignItems: "center",
                             margin: 5,
+                            color:"white",
                         }}
                     >
-                        <Text style={{ marginLeft: 10, marginRight: 20 }}>
+                        <Text style={{ marginLeft: 10, marginRight: 20, color:"white" }}>
                             Apparel & Accessories:
                         </Text>
                         <TextInput
                             style={styles.settingsTabInput}
                             placeholder={String(budgets.aa_budget)}
-                            placeholderTextColor={"black"}
+                            placeholderTextColor={"white"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
                                     setNewBudgets({
@@ -179,13 +180,13 @@ const Settings = (props) => {
                             margin: 5,
                         }}
                     >
-                        <Text style={{ marginLeft: 10, marginRight: 67 }}>
+                        <Text style={{ marginLeft: 10, marginRight: 67, color:"white" }}>
                             Entertainment:
                         </Text>
                         <TextInput
                             style={styles.settingsTabInput}
                             placeholder={String(budgets.e_budget)}
-                            placeholderTextColor={"black"}
+                            placeholderTextColor={"white"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
                                     setNewBudgets({
@@ -210,13 +211,13 @@ const Settings = (props) => {
                             margin: 5,
                         }}
                     >
-                        <Text style={{ marginLeft: 10, marginRight: 126 }}>
+                        <Text style={{ marginLeft: 10, marginRight: 126, color:"white" }}>
                             Food:
                         </Text>
                         <TextInput
                             style={styles.settingsTabInput}
                             placeholder={String(budgets.f_budget)}
-                            placeholderTextColor={"black"}
+                            placeholderTextColor={"white"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
                                     setNewBudgets({
@@ -241,13 +242,13 @@ const Settings = (props) => {
                             margin: 5,
                         }}
                     >
-                        <Text style={{ marginLeft: 10, marginRight: 43 }}>
+                        <Text style={{ marginLeft: 10, marginRight: 43, color:"white" }}>
                             Health & Wellness:
                         </Text>
                         <TextInput
                             style={styles.settingsTabInput}
                             placeholder={String(budgets.hw_budget)}
-                            placeholderTextColor={"black"}
+                            placeholderTextColor={"white"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
                                     setNewBudgets({
@@ -272,13 +273,13 @@ const Settings = (props) => {
                             margin: 5,
                         }}
                     >
-                        <Text style={{ marginLeft: 10, marginRight: 36 }}>
+                        <Text style={{ marginLeft: 10, marginRight: 36, color:"white" }}>
                             Pets & Pet Supplies:
                         </Text>
                         <TextInput
                             style={styles.settingsTabInput}
                             placeholder={String(budgets.pp_budget)}
-                            placeholderTextColor={"black"}
+                            placeholderTextColor={"white"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
                                     setNewBudgets({
@@ -303,13 +304,13 @@ const Settings = (props) => {
                             margin: 5,
                         }}
                     >
-                        <Text style={{ marginLeft: 10, marginRight: 102 }}>
+                        <Text style={{ marginLeft: 10, marginRight: 102, color:"white" }}>
                             Self-care:
                         </Text>
                         <TextInput
                             style={styles.settingsTabInput}
                             placeholder={String(budgets.sc_budget)}
-                            placeholderTextColor={"black"}
+                            placeholderTextColor={"white"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
                                     setNewBudgets({
@@ -334,13 +335,13 @@ const Settings = (props) => {
                             margin: 5,
                         }}
                     >
-                        <Text style={{ marginLeft: 10, marginRight: 121 }}>
+                        <Text style={{ marginLeft: 10, marginRight: 121, color:"white" }}>
                             Travel:
                         </Text>
                         <TextInput
                             style={styles.settingsTabInput}
                             placeholder={String(budgets.t_budget)}
-                            placeholderTextColor={"black"}
+                            placeholderTextColor={"white"}
                             onChangeText={(text) => {
                                 if (text.length === 0) {
                                     setNewBudgets({
@@ -387,22 +388,41 @@ const Settings = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:"#98c46a",
+        
     },
     greetingContainer: {
         flex: 1,
+        alignItems:"center",
+        paddingTop:60,
+    },
+    card: {
+        backgroundColor: "#07706a",
+        borderColor: "#07706a",
+        borderRadius: 10,
+    },
+    cardText: {
+        color: "#ecfade",
+        fontSize: 18,
     },
     greeting: {
         fontSize: 35,
         marginTop: 30,
         marginBottom: 30,
         paddingLeft: 10,
+        paddingTop: 3,
+        fontWeight: 'bold',
+        color: "#07706a",
     },
     settingsContainer: {
         flexDirection: "row",
         alignItems: "center",
+        
     },
     settingsTabLabel: {
         marginLeft: 10,
+        color: "white",
+        
     },
     settingsTabInput: {
         width: "30%",
@@ -411,6 +431,7 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         borderRadius: 7,
         marginLeft: 5,
+        borderColor:"white",
     },
     logoutButton: {
         width: 70,

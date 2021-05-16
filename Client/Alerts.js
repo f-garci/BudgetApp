@@ -119,29 +119,34 @@ const Alerts = (props) => {
     };
 
     return (
-        <SafeAreaView>
-            <View style={{backgroundColor: "#63A088", alignItems: 'center',
-        justifyContent: 'center'}}>
+        <SafeAreaView style={styles.container}>
+            <View>
                 <Text>{obtainTransactions()}</Text>
             </View>
         </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
+    container:{
+        backgroundColor: "#98c46a",
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     alertContainer:{
         backgroundColor: '#07706a',
         width: 300,
         height: 150,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 50,
+        paddingHorizontal:10,
+        borderRadius: 30,
         margin: 10,
     },
     alertText:{
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: 'white'
+        color: 'white',
     }
 });
 
