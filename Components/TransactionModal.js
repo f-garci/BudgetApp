@@ -63,7 +63,7 @@ export default TransactionModal = () => {
                             <Text style={{ marginRight: 10 }}>
                                 Transaction Name:
                             </Text>
-                            <Text style={{ marginRight: 5 }}>$</Text>
+                            <Text style={{ marginRight: 5 }}> </Text>
                             <TextInput
                                 onChangeText={(text) => {
                                     setTransactionName(text);

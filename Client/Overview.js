@@ -7,6 +7,7 @@ import {
     ScrollView,
     StyleSheet,
     LogBox,
+    SafeAreaView
 } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -24,7 +25,7 @@ const Overview = (props) => {
     const modalVis = useSelector((state) => state.account.modalVisible);
     const dispatch = useDispatch();
 
-    LogBox.ignoreLogs(["Setting a timer"]);
+    LogBox.ignoreAllLogs();
 
     const categoryTotal = [
         {
@@ -134,7 +135,6 @@ const Overview = (props) => {
                     };
                 });
 
-                console.log(currentBudgetList);
                 setTotalBudget(
                     currentBudgetList[0].aa_budget +
                         currentBudgetList[0].hw_budget +
@@ -148,17 +148,8 @@ const Overview = (props) => {
         return unsubscribe;
     }, []);
 
-    // categoryTotal.forEach((category) => {
-    //     transactions.forEach((transaction) => {
-    //         if (category.name === transaction.category) {
-    //             category.total = category.total + 1;
-    //         }
-    //     });
-    // });
-
     const renderTransactions = () => {
         const data = transactions.slice(0, 3);
-        console.log("fired transactions");
         return (
             <View>
                 <FlatList
@@ -199,17 +190,12 @@ const Overview = (props) => {
         </View>
     );
 
-    //ISSUE WITH CODE BELOW
     const getMonthlyTotal = () => {
-        // for (var i = 0; i < transactionList.length; i++) {
-        //     console.log('array: ' + i + ' amount: ' + transactionList[i].transAm + ' time ' + transactionList[i].createdAt)
-        // }
-
-        // let data = transactionList.filter(
-        //     (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
-        // );
+        let data = transactions.filter(
+            (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth
+        );
         let sum = 0;
-        sum = transactions.reduce(
+        sum = data.reduce(
             (accumulator, currentValue) => accumulator + currentValue.transAm,
             0
         );
@@ -217,12 +203,12 @@ const Overview = (props) => {
     };
 
     const getSpendingByCategory = (category) => {
-        // let data = transactions.filter(
-        //     (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth && transaction.category === category
-        // );
         let data = transactions.filter(
-            (transaction) => transaction.category === category
+            (transaction) => month[new Date(transaction.createdAt.toDate()).getMonth()] === currentMonth && transaction.category === category
         );
+        // let data = transactions.filter(
+        //     (transaction) => transaction.category === category
+        // );
         let sum = 0;
         sum = data.reduce(
             (accumulator, currentValue) => accumulator + currentValue.transAm,
@@ -241,6 +227,7 @@ const Overview = (props) => {
     });
 
     return (
+        <SafeAreaView style={{flex: 1}}>
         <ScrollView style={styles.scrollContainer}>
             {modalVis && <TransactionModal />}
             <TouchableOpacity
@@ -314,6 +301,7 @@ const Overview = (props) => {
             </TouchableOpacity>
             {modalVis && <TransactionModal />}
         </ScrollView>
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({

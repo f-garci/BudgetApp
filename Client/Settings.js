@@ -5,6 +5,9 @@ import {
     View,
     TouchableOpacity,
     TextInput,
+    LogBox,
+    ScrollView,
+    SafeAreaView
 } from "react-native";
 import { Card } from "react-native-elements";
 
@@ -14,6 +17,8 @@ import { signedIn } from "../store/actions/actionTypes";
 import { useDispatch } from "react-redux";
 import { database } from "../firebase";
 import { firestore } from "firebase";
+
+LogBox.ignoreAllLogs();
 
 const Settings = (props) => {
     const [error, setError] = useState("");
@@ -107,7 +112,8 @@ const Settings = (props) => {
     console.log(newProfiles.name);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={{flex: 1}}>
+        <ScrollView style={styles.container}>
             <View style={styles.greetingContainer}>
                 <Text style={styles.greeting}>
                     Welcome, {profile.name ? profile.name : ""}!
@@ -367,11 +373,12 @@ const Settings = (props) => {
                     flex: 1,
                     alignItems: "center",
                     justifyContent: "center",
+                    flexDirection: "row"
                 }}
             >
                 {changes && (
-                    <TouchableOpacity onPress={updateUser}>
-                        <Text>Update</Text>
+                    <TouchableOpacity style={styles.updateButton} onPress={updateUser}>
+                        <Text style={{ color: "white" }}>Update</Text>
                     </TouchableOpacity>
                 )}
                 <TouchableOpacity
@@ -381,7 +388,8 @@ const Settings = (props) => {
                     <Text style={{ color: "white" }}>Logout</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -440,6 +448,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#07706a",
         borderRadius: 5,
+        marginTop: 10
+    },
+    updateButton: {
+        width: 70,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#07706a",
+        borderRadius: 5,
+        marginTop: 10,
     },
 });
 

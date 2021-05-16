@@ -6,6 +6,7 @@ import {
     Button,
     TouchableOpacity,
     FlatList,
+    SafeAreaView
 } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 import { useAuth } from "../contexts/AuthContext";
@@ -106,7 +107,7 @@ const Spending = (props) => {
                 <View style={styles.transactionView}>
                     <View style={{ flex: 0.7 }}>
                         <Text style={{ fontSize: 20, marginLeft: 5, color: "#ecfade", paddingTop:10 }}>
-                            Transaction Name
+                            {item.transactionName}
                         </Text>
                         <Text style={{ color: "white", marginLeft: 10, paddingTop:5 }}>
                             {item.category}
@@ -289,6 +290,7 @@ const Spending = (props) => {
     };
 
     return (
+        <SafeAreaView style={{flex:1}}>
         <View style={styles.container}>
             <View style={styles.topContainer}>
                 <View style={styles.backButtonView}>
@@ -341,6 +343,7 @@ const Spending = (props) => {
                 </View>
             </View>
         </View>
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
