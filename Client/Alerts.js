@@ -3,10 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    Button,
     SafeAreaView,
     FlatList,
-    ScrollView
 } from "react-native";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -53,7 +51,6 @@ const Alerts = (props) => {
 
         return (
             <View>
-                <ScrollView>
                 <FlatList
                     data={transactions}
                     renderItem={({ item }) => {
@@ -113,7 +110,6 @@ const Alerts = (props) => {
                         }
                     }}
                 />
-                </ScrollView>
             </View>
         );
     };
@@ -121,7 +117,7 @@ const Alerts = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <View>
-                <Text>{obtainTransactions()}</Text>
+                {obtainTransactions()}
             </View>
         </SafeAreaView>
     );
