@@ -49,7 +49,7 @@ const SignUp = (props) => {
     }
 
     return (
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={{flex:1, backgroundColor: "#98c46a",}}>
         <View style={styles.container}>
               
                 <Text style={{fontSize: 30}}>Create Profile</Text>
