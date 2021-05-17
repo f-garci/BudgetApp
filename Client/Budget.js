@@ -122,7 +122,7 @@ const Budget = (props) => {
     };
 
     return (
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={{flex:1, backgroundColor: "#98c46a",}}>
         <ScrollView style={styles.container}>
             <Text style={styles.categoryText}>Apparel & Accessories</Text>
             <View style={styles.categoryView}>

@@ -290,7 +290,7 @@ const Spending = (props) => {
     };
 
     return (
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={{flex:1, backgroundColor: "#98c46a",}}>
         <View style={styles.container}>
             <View style={styles.topContainer}>
                 <View style={styles.backButtonView}>

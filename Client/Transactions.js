@@ -125,7 +125,7 @@ const Transactions = (props) => {
     };
 
     return (
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={{flex:1, backgroundColor: "#98c46a",}}>
         <View style={{ flex: 1, backgroundColor: "#98c46a" }}>
             {renderTransactions()}
         </View>

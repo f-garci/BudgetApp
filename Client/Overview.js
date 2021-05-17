@@ -227,7 +227,7 @@ const Overview = (props) => {
     });
 
     return (
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: "#98c46a",}}>
         <ScrollView style={styles.scrollContainer}>
             {modalVis && <TransactionModal />}
             <TouchableOpacity

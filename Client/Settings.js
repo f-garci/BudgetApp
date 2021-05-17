@@ -110,7 +110,7 @@ const Settings = (props) => {
     };
 
     return (
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: "#98c46a",}}>
         <ScrollView style={styles.container}>
             <View style={styles.greetingContainer}>
                 <Text style={styles.greeting}>
